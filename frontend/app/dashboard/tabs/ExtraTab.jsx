@@ -59,7 +59,7 @@ export default function ExtraTab() {
   return (
     <div className="w-full h-screen space-y-5 pt-[3em] xl:pt-0">
       <ProfileHeader />
-      <div className="flex items-center gap-2 text-lg font-bold font-baloo">
+      <div className="hidden lg:flex items-center gap-2 text-lg font-bold font-baloo">
         <Image
           src="/home.svg"
           alt="Home"
