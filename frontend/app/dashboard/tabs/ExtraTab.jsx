@@ -57,7 +57,7 @@ const options = [
 
 export default function ExtraTab() {
   return (
-    <div className="w-full h-screen space-y-5">
+    <div className="w-full h-screen space-y-5 pt-[3em] xl:pt-0">
       <ProfileHeader />
       <div className="flex items-center gap-2 text-lg font-bold font-baloo">
         <Image
@@ -78,14 +78,15 @@ export default function ExtraTab() {
 
 
 
-      <section className="grid grid-cols-4 gap-4 w-full">
+      <section className="grid max-sm:grid-cols-1 max-md:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
         
-        {options.map((items, index) => <div key={index} className={`grid ${items.background} shadow-md rounded-[2em] h-[19em] w-full bg-secondary px-6 pr-8 pb-[1.7em] pt-[4em] text-white`}>
-          <Link href={items.link} className="flex flex-col">
-            <p className="w-fit font-baloo font-bold text-xl text-white">{items.title}</p>
+        {options.map((items, index) => <div key={index} className={`grid ${items.background} shadow-md rounded-[2em] max-md:h-[10em] md:h-[19em] w-full bg-secondary px-6 pr-8 pb-6 md:pb-[1.7em] max-md:pt-7 md:pt-[4em] text-white`}>
+          <Link href={items.link} className="flex flex-col max-md:gap-2">
+            
+            <p className="items-center flex gap-3 w-fit font-baloo font-bold text-xl text-white">{items.title} </p>
             <p className="text-[0.9em]">{items.caption}</p>
             <div className="mb-0 mt-auto flex justify-between">
-              <Image src={items.imageUrl} height={70} width={70} alt="image" />
+              <Image src={items.imageUrl} height={70} width={70} alt="image" className=" max-md:max-h-[50px] max-md:max-w-[50px] max-md:mr-0 max-md:ml-auto" />
             </div>
             
           </Link>
