@@ -1,2 +1,36 @@
-# savingsville
-Savingsville is a gamified web app that teaches youth financial literacy through interactive lessons, quizzes, and an AI chatbot. Built with Node.js, React, and MongoDB, it features role-based dashboards for students, parents, and teachers, with progress tracking and admin tools.
+# 💰 Savingsville - Financial Literacy MVP
+
+**Savingsville** is an educational, gamified web application designed to teach youth essential financial literacy concepts through interactive lessons, quizzes, and AI-powered storytelling.
+
+---
+
+## 🚀 MVP Overview
+
+Savingsville aims to empower students with personal finance skills by combining:
+- 📚 Structured lessons and gamified quizzes
+- 🧠 AI chatbot narratives (Mayor Penny Wise)
+- 📊 Progress tracking for students, parents, and teachers
+- 🔐 Role-based access and admin management tools
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: React.js  
+- **Backend**: Node.js (Express)  
+- **Database**: MongoDB  
+- **Authentication**: JWT-based Role Authentication  
+- **AI Integration**: OpenAI or Dialogflow (for chatbot storytelling)  
+- **Hosting**: VPS (Ubuntu 22.04, 2 vCPUs, 4 GB RAM, 80 GB SSD)
+
+---
+
+## 📦 Features
+
+- ✅ User authentication (Students / Parents / Teachers)
+- 🏠 Dashboard with lesson progress overview
+- 🎮 Gamified quizzes and coin-based rewards
+- 🧑‍🏫 Admin panel to manage content and users
+- 🤖 Chatbot featuring *Mayor Penny Wise*
+- 📈 Track and visualize learning progress
+- 🔒 SSL secured & firewall-protected hosting setup
