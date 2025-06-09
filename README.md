@@ -16,12 +16,12 @@ Savingsville aims to empower students with personal finance skills by combining:
 
 ## 🛠 Tech Stack
 
-- **Frontend**: React.js  
+- **Frontend**: React.js/Next JS  
 - **Backend**: Node.js (Express)  
 - **Database**: MongoDB  
 - **Authentication**: JWT-based Role Authentication  
 - **AI Integration**: OpenAI or Dialogflow (for chatbot storytelling)  
-- **Hosting**: VPS (Ubuntu 22.04, 2 vCPUs, 4 GB RAM, 80 GB SSD)
+- **Hosting**: VPS
 
 ---
 
@@ -33,4 +33,3 @@ Savingsville aims to empower students with personal finance skills by combining:
 - 🧑‍🏫 Admin panel to manage content and users
 - 🤖 Chatbot featuring *Mayor Penny Wise*
 - 📈 Track and visualize learning progress
-- 🔒 SSL secured & firewall-protected hosting setup
