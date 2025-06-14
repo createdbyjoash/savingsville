@@ -1,103 +1,199 @@
 import Image from "next/image";
+import Link from "next/link";
+import WhiteButton from "@/components/WhiteButton";
+import AccentButton from "@/components/AccentButton";
+
+
+const features = [
+  {
+    image: "/feature-image 1.png",
+    caption: "Resource Library"
+  },
+  {
+    image: "/feature-image 2.png",
+    caption: "Financial Insights"
+  },
+  {
+    image: "/feature-image 3.png",
+    caption: "Security"
+  },
+  {
+    image: "/feature-image 4.png",
+    caption: "Have Fun"
+  }
+]
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+    <div className="space-y-8 w-full lg:max-w-[1920px] mx-auto">
+      <header className=" py-4 w-[80%] mx-auto mt-5 font-heading font-bold flex justify-between items-center">
+        <Link href="#" className="flex w-fit">
+          <Image
+            src="/logo_icon.png"
+            alt="Logo"
+            width={10}
+            height={10}
+            className="my-auto w-[90px] h-[90px]"
+            unoptimized
+          />
+          <h1 className="mt-5 font-heading font-bold text-3xl font-display text-center text-secondary ml-[-4px]">
+            Savingsville
+          </h1>
+        </Link>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <div className="space-x-8 text-2xl">
+          <Link href="#" className="opacity-40 hover:opacity-80 transition">
+            Analysis
+          </Link>
+          <Link href="#" className="opacity-40 hover:opacity-80 transition">
+            Tools
+          </Link>
+          <Link href="#" className="opacity-40 hover:opacity-80 transition">
+            Forums
+          </Link>
+          <WhiteButton label={"Get Started"} />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </header>
+
+      <section className="w-[80%] mx-auto  mt-[5em]">
+        <div className="grid grid-cols-2">
+          <div className="">
+            <h2 className="text-5xl font-heading font-bold leading-[1.2em]">
+              Savingsville <span className="text-[#00C7A8]">Your Path</span>
+              <br></br> to Smart Money Moves
+            </h2>
+            <div className="cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl bg-[#ffffff59] shadow-lg mt-6 px-4 py-3 w-[29em]">
+              <div className="my-auto h-[80px] w-[80px] flex relative justify center">
+                <Image
+                  src="/image.png"
+                  alt="Logo"
+                  layout="fill"
+                  className=""
+                  unoptimized
+                />
+              </div>
+              <div className="my-auto mr-1">
+                <h2 className="text-2xl font-heading font-bold">
+                  Interactive Budget Builder
+                </h2>
+                <p className="font-inter font-normal">
+                  Customize and track your budget in real time.
+                </p>
+              </div>
+            </div>
+
+            <div className="cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl bg-[#ffffff11] border-2 border-white w-[29em] mt-6 px-4 py-3">
+              <div className="my-auto h-[80px] w-[80px] flex relative justify center">
+                <Image
+                  src="/image 2.png"
+                  alt="Logo"
+                  layout="fill"
+                  className=""
+                  unoptimized
+                />
+              </div>
+              <div className="my-auto mr-1">
+                <h2 className="text-2xl font-heading font-bold">
+                  Gamified Learning Modules
+                </h2>
+                <p className="font-inter font-normal">
+                  Learn essential financial concepts through mini-games, quizzes.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative grid w-full">
+            <div>
+              <Image
+              src="/landing-page-avatar.png"
+              alt="Logo"
+              width={650}
+              height={650}
+              className="mt-[-6em]"
+              unoptimized
+            />
+            </div>
+            
+
+            <div className="absolute top-[50%] left-[39%] cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl  w-[23em] px-4 py-3">
+              <div className="z-40 my-auto h-[80px] w-[80px] flex relative justify center">
+                <Image
+                  src="/image 3.png"
+                  alt="Logo"
+                  layout="fill"
+                  className=""
+                  unoptimized
+                />
+              </div>
+
+              <div className="z-40 my-auto mr-1">
+                <h2 className="text-2xl font-heading font-bold">
+                  Goal Tracker And Progress Dashboard
+                </h2>
+              </div>
+
+              <div className="z-10 absolute cursor-pointer grid grid-cols-[80px_auto] rounded-3xl w-[23em] h-[6.5em] px-4 py-3 shadow-md bg-white/10 backdrop-blur-xl border border-gray-300 ">
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid w-[80%] mx-auto py-[2em] items-center space-y-4">
+        <h2 className="mx-auto font-baloo text-4xl font-bold">Cool Features</h2>
+        <p className="text-center mx-auto max-w-[55%]">{`Whether you’re just starting your money journey or looking to sharpen your skills, Saving Ville! empowers you to make confident decisions, build healthy habits, and reach your goals-one cent at a time.`}</p>
+
+        <div className="bg-white w-full mx-auto h-fit px-[5em] py-[3em] rounded-[2.4em] shadow-xl mt-5 flex gap-4 justify-between">
+          {features.map(({image, caption}, index) => 
+           <div className="grid space-y-3 place-items-center" key={index}>
+            <Image
+                  src={image}
+                  alt="Logo"
+                  height={150}
+                  width={150}
+                  className=""
+                  unoptimized
+                />
+            <p className="text-center font-baloo font-bold text-2xl">{caption}</p>
+          </div>
+          )}
+         
+        </div>
+      </section>
+
+      <section className="grid grid-cols-[1.2fr_1fr] w-[80%] mx-auto py-8">
+        <div>
+            <Image
+            src="/money-bag-image.png"
+            alt="Logo"
+            width={580}
+            height={580}
+            unoptimized
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+        </div>
+
+        <div className="h-fit my-auto space-y-4">
+          <h2 className="text-5xl leading-[1.2em] font-baloo font-bold">Turn Pennies into <span className="text-accent" >Possibilities!</span></h2>
+          <p>{`Money doesn’t have to be boring! Saving Ville! transforms everyday cents into big wins with interactive tools, friendly challenges, and bite-sized lessons that make learning about money feel like a game.`}</p>
+          <WhiteButton label={"Give it a try!"} />
+        </div>
+
+      </section>
+      </div>
+
+      <footer className="w-full px-[2em] py-[4em] lg:px-[6em] bg-secondary h-fit ">
+        <div className="w-full lg:max-w-[2000px] flex gap-3 justify-between mx-auto">
+          <div className="my-auto w-[60%] space-y-3">
+          <h2 className="font-baloo text-4xl font-bold text-secondary-dark">Unlock Your Financial Potential</h2>
+          <p className="text-white opacity-70">{`Discover how easy and enjoyable managing money can be. With Make Cent!, you’ll gain the knowledge, confidence, and tools you need to make informed choices, build lasting wealth, and turn your financial dreams into reality-no matter where you’re starting from.`}</p>
+        </div>
+
+        <AccentButton className="my-auto " label={"Get Started!"} />
+        </div>
       </footer>
-    </div>
+      </>
+    
   );
 }

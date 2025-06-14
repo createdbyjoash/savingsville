@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
+
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #E2C6FF;
+  --primary: #E2C6FF;
+  font-family: 'Inter', 'Baaloo Paaji', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-background: #E2C6FF;
+  --color-primary: #E2C6FF;
+  --color-secondary: #9B5398;
+  --color-secondary-dark: #3d203c;
+  --color-accent: #00C7A8;
+  --font-baloo: 'Baloo Paaji';
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+@font-face {
+  font-family: 'Baloo Paaji';
+  src: url('/fonts/Baloo Paaji/BalooPaaji2-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo Paaji';
+  src: url('/fonts/Baloo Paaji/BalooPaaji2-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo Paaji';
+  src: url('/fonts/Baloo Paaji/BalooPaaji2-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo Paaji';
+  src: url('/fonts/Baloo Paaji/BalooPaaji2-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+.font-heading {
+  font-family: 'Baloo Paaji';
+}
+
+.font-inter {
+  font-family: 'Inter';
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Baaloo Paaji', Arial, Helvetica, sans-serif;
+}
+
+.icon {
+  transition: 200ms ease-in-out;
+}
+
+.icon:hover {
+  transform: translateY(-5px); /* Tailwind's hover:translate-y-[-5px] */
 }
