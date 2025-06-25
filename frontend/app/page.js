@@ -61,43 +61,43 @@ const goToStep = (step) => {
   return (
     <main className="relative">
       <div className="space-y-8 w-full lg:max-w-[1920px] mx-auto">
-        <header className=" py-4 w-[80%] mx-auto mt-5 font-heading font-bold flex justify-between items-center">
-          <Link href="#" className="flex w-fit">
+        <header className=" py-4 w-[80%] max-sm:w-[90%] mx-auto mt-5 font-heading font-bold flex justify-between items-center">
+          <Link href="#" className="flex w-fit mt-3">
             <Image
               src="/logo_icon.png"
               alt="Logo"
               width={10}
               height={10}
-              className="my-auto w-[90px] h-[90px]"
+              className="my-auto max-lg:w-[60px] max-lg:h-[60px] w-[90px] h-[90px]"
               unoptimized
             />
-            <h1 className="mt-5 font-heading font-bold text-3xl font-display text-center text-secondary ml-[-4px]">
+            <h1 className="max-lg:mt-2 mt-5 font-heading font-bold text-3xl font-display text-center text-secondary ml-[-4px]">
               Savingsville
             </h1>
           </Link>
 
           <div className="space-x-8 text-2xl">
-            <Link href="#" className="opacity-40 hover:opacity-80 transition">
+            <Link href="#" className="max-lg:hidden opacity-40 hover:opacity-80 transition">
               Analysis
             </Link>
-            <Link href="#" className="opacity-40 hover:opacity-80 transition">
+            <Link href="#" className="max-lg:hidden opacity-40 hover:opacity-80 transition">
               Tools
             </Link>
-            <Link href="#" className="opacity-40 hover:opacity-80 transition">
+            <Link href="#" className="max-md:hidden opacity-40 hover:opacity-80 transition">
               Forums
             </Link>
-            <WhiteButton onClick={() => handleFormStep("step1")} label={"Get Started"} />
+            <WhiteButton onClick={() => handleFormStep("step1")} label={"Get Started"} className="max-sm:hidden "/>
           </div>
         </header>
 
-        <section className="w-[80%] mx-auto  mt-[5em]">
-          <div className="grid grid-cols-2">
-            <div className="">
-              <h2 className="text-5xl font-heading font-bold leading-[1.2em]">
-                Savingsville <span className="text-[#00C7A8]">Your Path</span>
-                <br></br> to Smart Money Moves
+        <section className="px-[1.2em] max-sm:text-center md:px-[4em] lg:px-[7em] xl:px-[12em] w-full mx-auto  mt-[5em]">
+          <div className="flex justify-center items-center max-lg:gap-[4em] max-lg:flex-col lg:grid grid-cols-2">
+            <div className="z-50">
+              <h2 className="max-md:mt-0 text-4xl  lgxx:text-[3em] lgxx:mt-[-2.6em] font-heading font-bold leading-[1.2em] max-sm:max-w-[95%] max-w-[75%] md:max-w-[15em] xl:w-[13.5em] max-sm:mb-[1em] max-md:text-center md:text-center md:mb-[1em] lg:mb-0 md:text-[2.6em] lg:text-left mx-auto">
+                Savingsville <span className="text-[#00C7A8]">Your Path </span>
+                 to Smart Money Moves
               </h2>
-              <div className="cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl bg-[#ffffff59] shadow-lg mt-6 px-4 py-3 w-[29em]">
+              <div className="cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl bg-[#ffffff59] shadow-lg mt-6 px-4 py-3 max-sm:w-[95%] w-[29em] mx-auto lg:mx-0">
                 <div className="my-auto h-[80px] w-[80px] flex relative justify center">
                   <Image
                     src="/image.png"
@@ -117,7 +117,7 @@ const goToStep = (step) => {
                 </div>
               </div>
 
-              <div className="cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl bg-[#ffffff11] border-2 border-white w-[29em] mt-6 px-4 py-3">
+              <div className="cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl bg-[#ffffff11] border-2 border-white max-sm:w-[95%] w-[29em] mt-6 px-4 py-3 mx-auto lg:mx-0">
                 <div className="my-auto h-[80px] w-[80px] flex relative justify center">
                   <Image
                     src="/image 2.png"
@@ -139,7 +139,7 @@ const goToStep = (step) => {
               </div>
             </div>
 
-            <div className="relative grid w-full">
+            <div className="relative grid w-full place-items-center">
               <div>
                 <Image
                   src="/landing-page-avatar.png"
@@ -151,7 +151,7 @@ const goToStep = (step) => {
                 />
               </div>
 
-              <div className="absolute top-[50%] left-[39%] cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl  w-[23em] px-4 py-3">
+              <div className="absolute top-[50%] left-0 max-sm:left-0 lg:left-[20%] xl:left-[39%] cursor-pointer icon grid grid-cols-[80px_auto] rounded-3xl  w-[23em] px-4 py-3">
                 <div className="z-40 my-auto h-[80px] w-[80px] flex relative justify center">
                   <Image
                     src="/image 3.png"
@@ -178,11 +178,11 @@ const goToStep = (step) => {
           <h2 className="mx-auto font-baloo text-4xl font-bold">
             Cool Features
           </h2>
-          <p className="text-center mx-auto max-w-[55%]">{`Whether you’re just starting your money journey or looking to sharpen your skills, Saving Ville! empowers you to make confident decisions, build healthy habits, and reach your goals-one cent at a time.`}</p>
+          <p className="text-center mx-auto max-sm:max-w-[95%] md:max-w-[55%]">{`Whether you’re just starting your money journey or looking to sharpen your skills, Saving Ville! empowers you to make confident decisions, build healthy habits, and reach your goals-one cent at a time.`}</p>
 
-          <div className="bg-white w-full mx-auto h-fit px-[5em] py-[3em] rounded-[2.4em] shadow-xl mt-5 flex gap-4 justify-between">
+          <div className="bg-white max-md:w-fit w-full mx-auto h-fit px-[5em] py-[2.5em] rounded-[2.4em] shadow-xl mt-5 flex flex-wrap gap-[1.8em] justify-between max-sm:flex-col max-md:flex-col">
             {features.map(({ image, caption }, index) => (
-              <div className="grid space-y-3 place-items-center" key={index}>
+              <div className="md:mt-3 mt-0 grid space-y-3 place-items-center" key={index}>
                 <Image
                   src={image}
                   alt="Logo"

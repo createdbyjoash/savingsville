@@ -17,6 +17,8 @@
   --color-accent: #00C7A8;
   --font-baloo: 'Baloo Paaji';
   --font-inter: 'Inter';
+  --breakpoint-lgxx: 1340px;
+  --breakpoint-smxx: 700px;
 }
 
 
