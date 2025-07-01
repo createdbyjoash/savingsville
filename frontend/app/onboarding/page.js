@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Step1 from "./steps/Step1";
 import Step2 from "./steps/Step2";
@@ -10,7 +10,7 @@ import Step6 from "./steps/Step6";
 
 
 
-export default function page() {
+ function Onboarding() {
   const [pageIndex, setPageIndex] = useState(0);
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
@@ -25,5 +25,14 @@ export default function page() {
     {tab === "5" && <Step5 />}
     {tab === "6" && <Step6 />}
     </>
+  );
+}
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <Onboarding />
+    </Suspense>
   );
 }
