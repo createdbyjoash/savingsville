@@ -5,7 +5,7 @@ import Link from "next/link";
 import WhiteButton from "@/components/WhiteButton";
 import AccentButton from "@/components/AccentButton";
 import Input from "@/components/Input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useParams } from "next/navigation";
 import CreateAccountPopup from "./loginflow/CreateAccountPopup";
 import UpdateUsernamePopup from "./loginflow/UpdateUsernamePopup";
@@ -38,7 +38,7 @@ const features = [
   },
 ];
 
-export default function Home() {
+function Home() {
   const [signupStep, setSignupStep] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // const [pageIndex, setPageIndex] = useState(0);
@@ -278,5 +278,14 @@ const goToStep = (step) => {
       
     </main>
     
+  );
+}
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <Home />
+    </Suspense>
   );
 }
