@@ -122,7 +122,7 @@ export default function Step6() {
             <WhiteButton label="Back" onClick={() => router.push(`?tab=5`)} />
             <AccentButton
               label="Continue"
-              onClick={() => router.push(`?tab=6`)}
+              onClick={() => router.push(`/dashboard?tab=home`)}
             />
           </div>
       </section>

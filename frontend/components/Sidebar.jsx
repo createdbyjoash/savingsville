@@ -1,20 +1,24 @@
 
 "use client";
 import React, { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const sidebarItems = [
-  { icon: "/home.svg", label: "Home" },
-  { icon: "/advanced.svg", label: "Advanced" },
-  { icon: "/goals.svg", label: "Goals" },
-  { icon: "/tracker.svg", label: "Tracker" },
-  { icon: "/games.svg", label: "Games" },
-  { icon: "/extra.svg", label: "Extra", active: true },
+  { icon: "/home.svg", label: "Home", tabId: "home" },
+  { icon: "/advanced.svg", label: "Advanced", tabId: "advanced" },
+  { icon: "/goals.svg", label: "Goals", tabId: "goals" },
+  { icon: "/tracker.svg", label: "Tracker", tabId: "tracker" },
+  { icon: "/games.svg", label: "Games", tabId: "games" },
+  { icon: "/extra.svg", label: "Extra", tabId: "extra" }, // Active tab
 ];
 
-export default function Sidebar({ isOpen = true, onClose }) {
-  // Responsive sidebar: show/hide on mobile
+export default function Sidebar({ isOpen = true, onClose, handleTabChange }) {
+  const searchParams = useSearchParams();
+      const tab = searchParams.get("tab");
+  
+
   return (
-    <>
+    <div className="bg-[#E2C6FF] w-[18em] h-screen px-[2em] pt-[3em] py-[1.5em] shadow-2xl border-r-2 border-[#e6d2f7] rounded-r-2xl">
       {/* Overlay for mobile */}
       <div
         className={`fixed inset-0 z-40 bg-black/30 transition-opacity md:hidden ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
@@ -22,13 +26,13 @@ export default function Sidebar({ isOpen = true, onClose }) {
         aria-hidden={!isOpen}
       />
       <aside
-        className={`fixed md:static z-50 top-0 left-0 h-full bg-[#E2C6FF] min-h-screen w-[230px] md:w-64 p-0 rounded-tr-3xl rounded-br-3xl shadow-xl border-r-2 border-[#e6d2f7] flex flex-col transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
-        style={{ maxWidth: 280 }}
+        className={`fixed md:static z-50 top-0 left-0 flex flex-col h-full transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+        
       >
         {/* Logo & Hamburger */}
-        <div className="flex items-center gap-3 px-7 pt-8 pb-10 relative">
+        <div className="flex items-center gap-3 relative mb-[2em]">
           <img src="/logo_icon.png" alt="Logo" className="w-11 h-11" />
-          <span className="font-heading text-2xl font-bold text-[#9B5398] tracking-tight">Saving Ville</span>
+          <span className="font-heading text-2xl font-bold text-[#9B5398] tracking-tight">Savingsville</span>
           {/* Hamburger close button (mobile) */}
           {onClose && (
             <button
@@ -41,16 +45,17 @@ export default function Sidebar({ isOpen = true, onClose }) {
           )}
         </div>
         {/* Nav */}
-        <nav className="flex-1 flex flex-col gap-2 px-4">
+        <nav className="flex-1 flex flex-col gap-3">
           {sidebarItems.map((item) => (
             <button
+            onClick={() => handleTabChange(item.tabId)}
               key={item.label}
-              className={`flex items-center gap-4 px-5 py-3 rounded-xl text-base md:text-lg font-semibold transition-all duration-150 w-full text-left ${
-                item.active
-                  ? "bg-white/80 text-[#9B5398] shadow-[0_2px_8px_0_rgba(155,83,152,0.10)] border-2 border-[#9B5398]"
-                  : "bg-white/40 text-[#3d203c] hover:bg-[#f3e6ff] border-2 border-transparent"
+              className={`cursor-pointer flex items-center font-bold gap-4 px-5 py-3 rounded-xl text-base md:text-lg transition-all duration-150 w-full text-left ${
+                item.tabId === tab
+                  ? "bg-[#A994BF] text-white shadow-[0_2px_8px_0_rgba(155,83,152,0.10)] border-2 border-white"
+                  : "bg-white/40 hover:bg-[#f3e6ff] border-2 border-transparent"
               }`}
-              style={{ boxShadow: item.active ? '0 4px 16px 0 #e2c6ff' : undefined }}
+             
             >
               <span className={`flex items-center justify-center w-8 h-8 rounded-lg ${item.active ? 'bg-[#e2c6ff]' : ''}`}>
                 <img src={item.icon} alt={item.label + ' icon'} className="w-6 h-6" />
@@ -60,8 +65,8 @@ export default function Sidebar({ isOpen = true, onClose }) {
           ))}
         </nav>
         {/* Log Out */}
-        <div className="mt-auto px-4 pb-8 pt-4">
-          <button className="flex items-center gap-4 px-5 py-3 rounded-xl text-base md:text-lg font-semibold text-[#9B5398] bg-white/40 hover:bg-[#f3e6ff] w-full font-heading tracking-tight border-2 border-transparent">
+        <div className="mt-auto pt-4">
+          <button className="cursor-pointer flex items-center gap-4 px-5 py-3 rounded-xl text-base md:text-lg font-semibold text-[#9B5398] bg-white/40 hover:bg-[#f3e6ff] w-full font-heading tracking-tight border-2 border-transparent">
             <span className="flex items-center justify-center w-8 h-8 rounded-lg">
               <img src="/logout.svg" alt="Logout icon" className="w-6 h-6" />
             </span>
@@ -69,6 +74,6 @@ export default function Sidebar({ isOpen = true, onClose }) {
           </button>
         </div>
       </aside>
-    </>
+    </div>
   );
 }
