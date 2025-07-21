@@ -3,17 +3,11 @@ import Image from "next/image";
 import { PiNote } from "react-icons/pi";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import ProfileHeader from "@/components/ProfileHeader";
+import { useSearchParams } from "next/navigation";
+import CourseOverview from "./CourseOverview";
+
 
 const lessons = [
-  { id: 1, title: "Get Started", completed: true, current: true },
-  { id: 2, title: "Lesson 2", completed: false, current: false },
-  { id: 3, title: "Lesson 3", completed: false, current: false },
-  { id: 4, title: "Lesson 4", completed: false, current: false },
-  { id: 5, title: "Lesson 5", completed: false, current: false },
-  { id: 6, title: "Finish", completed: false, current: false },
-];
-
-const lessonsss = [
   {
     id: 1,
     topic: 1,
@@ -101,14 +95,19 @@ const lessonsss = [
 ];
 
 export default function HomeTab() {
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("state");
+
+
   return (
-    <div className="w-full h-screen flex flex-col gap-5 scrollbar-hide ">
+    <>
+    {!tab && <div className="w-full h-screen flex flex-col gap-5 scrollbar-hide ">
       <ProfileHeader />
 
       <section className="grid grid-cols-[55%_42%]  w-full  gap-8">
         <section className=" w-full h-screen  overflow-y-hidden ">
           <div className="relative space-y-[2em] pb-[14em] h-screen overflow-y-scroll scrollbar-hide">
-            {lessonsss.map(
+            {lessons.map(
               (
                 { current, id, topic, currentLesson, title, modules },
                 index
@@ -153,9 +152,9 @@ export default function HomeTab() {
                               className="rounded-lg"
                             />
                           </button>
-                          <div className="text-sm font-baloo font-bold w-fit border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
+                          <button className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
                             {lesson.title}
-                          </div>
+                          </button>
                           {currentLesson && (
                             <div className="absolute border-5 z-10 border-secondary h-[6em] w-[6em] rounded-full top-[-0.2em]"></div>
                           )}
@@ -177,9 +176,9 @@ export default function HomeTab() {
                               className="rounded-lg"
                             />
                           </button>
-                          <div className="text-sm font-baloo font-bold w-fit bg-primary border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
+                          <button className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit bg-primary border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
                             {lesson.title}
-                          </div>
+                          </button>
                         </div>
                       )
                     )}
@@ -274,6 +273,7 @@ export default function HomeTab() {
           />
         </section>
       </section>
-    </div>
+    </div>}
+    </>
   );
 }
