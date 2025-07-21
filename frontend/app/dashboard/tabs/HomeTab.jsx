@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { PiNote } from "react-icons/pi";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import ProfileHeader from "@/components/ProfileHeader";
@@ -104,7 +105,7 @@ export default function HomeTab() {
     {!tab && <div className="w-full h-screen flex flex-col gap-5 scrollbar-hide ">
       <ProfileHeader />
 
-      <section className="grid grid-cols-[55%_42%]  w-full  gap-8">
+      <section className="grid grid-cols-[55%_42%] w-full gap-8">
         <section className=" w-full h-screen  overflow-y-hidden ">
           <div className="relative space-y-[2em] pb-[14em] h-screen overflow-y-scroll scrollbar-hide">
             {lessons.map(
@@ -152,9 +153,9 @@ export default function HomeTab() {
                               className="rounded-lg"
                             />
                           </button>
-                          <button className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
+                          <Link href="http://localhost:3000/dashboard?tab=home&state=course_overview" className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
                             {lesson.title}
-                          </button>
+                          </Link>
                           {currentLesson && (
                             <div className="absolute border-5 z-10 border-secondary h-[6em] w-[6em] rounded-full top-[-0.2em]"></div>
                           )}
@@ -274,6 +275,8 @@ export default function HomeTab() {
         </section>
       </section>
     </div>}
+
+    {tab === "course_overview" && <CourseOverview />}
     </>
   );
 }
