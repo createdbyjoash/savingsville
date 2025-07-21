@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { Suspense } from 'react'
 import Sidebar from '@/components/Sidebar'
 import { useSearchParams, useRouter } from 'next/navigation'
 import HomeTab from './tabs/HomeTab'
@@ -9,7 +9,7 @@ import TrackerTab from './tabs/TrackerTab'
 import GamesTab from './tabs/GamesTab'
 import ExtraTab from './tabs/ExtraTab'
 
-export default function Dashboard() {
+ function Dashboard() {
     const searchParams = useSearchParams();
     const tab = searchParams.get("tab");
     const router = useRouter();
@@ -29,7 +29,7 @@ export default function Dashboard() {
         <Sidebar handleTabChange={handleTabChange}/>
         <div className='grid px-[2.4em] pt-[3.4em] h-screen overflow-y-hidden'>
             {(!tab || tab === "home") && <HomeTab />}
-            {tab === "advanced" && <AdvancedTab />}
+            {tab === "advanced" && <AdvancedTab/>}
             {tab === "goals" && <GoalsTab />}
             {tab === "tracker" && <TrackerTab />}
             {tab === "games" && <GamesTab />}
@@ -37,4 +37,12 @@ export default function Dashboard() {
         </div>
     </main>
   )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <Dashboard />
+    </Suspense>
+  );
 }

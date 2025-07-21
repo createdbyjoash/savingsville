@@ -2,14 +2,15 @@
 "use client";
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
-
+import Link from "next/link";
 const sidebarItems = [
-  { icon: "/home.svg", label: "Home", tabId: "home" },
-  { icon: "/advanced.svg", label: "Advanced", tabId: "advanced" },
-  { icon: "/goals.svg", label: "Goals", tabId: "goals" },
-  { icon: "/tracker.svg", label: "Tracker", tabId: "tracker" },
-  { icon: "/games.svg", label: "Games", tabId: "games" },
-  { icon: "/extra.svg", label: "Extra", tabId: "extra" }, // Active tab
+  { icon: "/home.svg", label: "Home", link: "/dashboard?tab=home", tabId: "home" },
+  { icon: "/advanced.svg", label: "Advanced", link: "/dashboard?tab=advanced", tabId: "advanced" },
+  { icon: "/goals.svg", label: "Goals", link: "/dashboard?tab=goals", tabId: "goals" },
+  { icon: "/tracker.svg", label: "Tracker", link: "/dashboard?tab=tracker", tabId: "tracker" },
+  { icon: "/games.svg", label: "Games", link: "/dashboard?tab=games", tabId: "games" },
+  { icon: "/extra.svg", label: "Extra", link: "/dashboard?tab=extra", tabId: "extra" },
+
 ];
 
 export default function Sidebar({ isOpen = true, onClose, handleTabChange }) {
@@ -26,9 +27,7 @@ export default function Sidebar({ isOpen = true, onClose, handleTabChange }) {
         aria-hidden={!isOpen}
       />
       <aside
-        className={`fixed md:static z-50 top-0 left-0 flex flex-col h-full transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
-        
-      >
+        className={`fixed md:static z-50 top-0 left-0 flex flex-col h-full transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}>
         {/* Logo & Hamburger */}
         <div className="flex items-center gap-3 relative mb-[2em]">
           <img src="/logo_icon.png" alt="Logo" className="w-11 h-11" />
@@ -47,8 +46,9 @@ export default function Sidebar({ isOpen = true, onClose, handleTabChange }) {
         {/* Nav */}
         <nav className="flex-1 flex flex-col gap-3">
           {sidebarItems.map((item) => (
-            <button
-            onClick={() => handleTabChange(item.tabId)}
+            <Link
+            //onClick={() => handleTabChange(item.tabId)}
+            href={item.link}
               key={item.label}
               className={`cursor-pointer flex items-center font-bold gap-4 px-5 py-3 rounded-xl text-base md:text-lg transition-all duration-150 w-full text-left ${
                 item.tabId === tab
@@ -61,7 +61,7 @@ export default function Sidebar({ isOpen = true, onClose, handleTabChange }) {
                 <img src={item.icon} alt={item.label + ' icon'} className="w-6 h-6" />
               </span>
               <span className="truncate font-heading tracking-tight">{item.label}</span>
-            </button>
+            </Link>
           ))}
         </nav>
         {/* Log Out */}

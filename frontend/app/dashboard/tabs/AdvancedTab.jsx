@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileHeader from "@/components/ProfileHeader";
 import Image from "next/image";
+import Link from "next/link";
 
 const options = [
   {id: 1,
@@ -53,9 +54,9 @@ export default function AdvancedTab() {
           height={28}
           className="inline-block"
         />
-        <span className="text-secondary font-bold">Home</span>
+        <Link href="/dashboard?tab=home" className="text-secondary font-bold">Home</Link>
         <span className="mx-1">»</span>
-        <span className="text-black font-bold">Advanced</span>
+        <Link href="#" className="text-black font-bold">Advanced</Link>
       </div>
     <div className="flex h-screen flex-col gap-5 scrollbar-hide overflow-y-scroll pb-[14em]">
       
@@ -66,10 +67,11 @@ export default function AdvancedTab() {
 
       <section className="grid grid-cols-4 gap-4 w-full">
         
-        {options.map((items, index) => <div key={index} className={`grid ${items.background} shadow-md rounded-[2em] h-[19em] w-full bg-secondary px-5 py-4 pt-[4em] text-white`}>
-          <div>
+        {options.map((items, index) => <div key={index} className={`grid ${items.background} shadow-md rounded-[2em] h-[19em] w-full bg-secondary px-6 pb-[1.7em] pt-[4em] text-white`}>
+          <div className="flex flex-col">
             <p className="w-fit font-baloo font-bold text-xl text-white">{items.title}</p>
             <p className="text-[0.9em]">{items.caption}</p>
+            <button className="mb-0 mt-auto opacity-60 text-black w-fit">open</button>
           </div>
           
         </div>)}
