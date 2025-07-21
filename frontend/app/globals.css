@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import 'tailwind-scrollbar-hide/v4';
 
 
 
@@ -16,6 +17,7 @@
   --color-secondary: #9B5398;
   --color-secondary-dark: #3d203c;
   --color-accent: #00C7A8;
+  --color-secondary-hover: #583057;
   --font-baloo: 'Baloo Paaji';
   --font-inter: 'Inter';
   --breakpoint-lgxx: 1340px;
@@ -72,3 +74,4 @@ body {
 .icon:hover {
   transform: translateY(-5px); /* Tailwind's hover:translate-y-[-5px] */
 }
+

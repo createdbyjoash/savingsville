@@ -25,9 +25,9 @@ export default function Dashboard() {
     }
 
   return (
-    <main className='grid grid-cols-[18em_auto] w-full overflow-y-hidden'>
+    <main className='grid grid-cols-[18em_auto] h-screen  w-full'>
         <Sidebar handleTabChange={handleTabChange}/>
-        <div className='grid px-[2.4em] pt-[3.4em] overflow-y-scroll'>
+        <div className='grid px-[2.4em] pt-[3.4em] h-screen overflow-y-hidden'>
             {(!tab || tab === "home") && <HomeTab />}
             {tab === "advanced" && <AdvancedTab />}
             {tab === "goals" && <GoalsTab />}
