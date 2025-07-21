@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { PiNote } from "react-icons/pi";
@@ -95,7 +95,7 @@ const lessons = [
   },
 ];
 
-export default function HomeTab() {
+function HomeTab() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("state");
 
@@ -278,5 +278,14 @@ export default function HomeTab() {
 
     {tab === "course_overview" && <CourseOverview />}
     </>
+  );
+}
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <HomeTab />
+    </Suspense>
   );
 }
