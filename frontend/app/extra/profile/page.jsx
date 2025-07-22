@@ -1,7 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Sidebar from "../../../components/Sidebar";
-export default function ProfilePage() {
+
+
+
+function ProfilePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex min-h-screen bg-[#E2C6FF]">
@@ -114,5 +117,15 @@ export default function ProfilePage() {
         </section>
       </main>
     </div>
+  );
+}
+
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <ProfilePage />
+    </Suspense>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Sidebar from "../../../components/Sidebar";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,7 +28,7 @@ const instructors = [
   },
 ];
 
-export default function InstructorsPage() {
+function InstructorsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [rows, setRows] = useState([instructors]);
 
@@ -135,5 +135,14 @@ export default function InstructorsPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <InstructorsPage />
+    </Suspense>
   );
 }

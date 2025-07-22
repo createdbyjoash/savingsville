@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Sidebar from "../../../components/Sidebar";
 import Image from "next/image";
 
@@ -15,7 +15,7 @@ const comms = [
   { icon: "/email.svg", label: "Email", value: 1 },
 ];
 
-export default function ParentalPage() {
+function ParentalPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="flex min-h-screen bg-[#e6cafd]">
@@ -83,5 +83,14 @@ export default function ParentalPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <ParentalPage />
+    </Suspense>
   );
 }

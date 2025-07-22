@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,7 +13,9 @@ const TOGGLES = [
   { label: "Motivational messages", key: "motivation2" },
 ];
 
-export default function SettingsPage() {
+
+
+function SettingsPage() {
   const [toggles, setToggles] = useState({
     sound: false,
     parental: false,
@@ -97,5 +99,15 @@ export default function SettingsPage() {
       </div>
       </div>
     </div>
+  );
+}
+
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <SettingsPage />
+    </Suspense>
   );
 }

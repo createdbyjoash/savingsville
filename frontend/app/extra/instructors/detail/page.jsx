@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import Sidebar from "../../../../components/Sidebar";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function InstructorDetailPage() {
+function InstructorDetailPage() {
   // Dummy data for instructor detail
   const instructor = {
     name: "Ms. Ada Okafor",
@@ -122,5 +122,14 @@ export default function InstructorDetailPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <InstructorDetailPage />
+    </Suspense>
   );
 }
