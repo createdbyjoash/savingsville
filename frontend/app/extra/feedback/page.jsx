@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Sidebar from "../../../components/Sidebar";
@@ -23,7 +23,7 @@ const faqs = [
   }
 ];
 
-export default function FeedbackPage() {
+function FeedbackPage() {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
@@ -107,5 +107,14 @@ export default function FeedbackPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <FeedbackPage />
+    </Suspense>
   );
 }
