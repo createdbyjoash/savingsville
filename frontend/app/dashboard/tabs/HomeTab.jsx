@@ -153,7 +153,7 @@ function HomeTab() {
                               className="rounded-lg"
                             />
                           </button>
-                          <Link href="http://localhost:3000/dashboard?tab=home&state=course_overview" className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
+                          <Link href="/dashboard?tab=home&state=course_overview" className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
                             {lesson.title}
                           </Link>
                           {currentLesson && (
@@ -177,7 +177,7 @@ function HomeTab() {
                               className="rounded-lg"
                             />
                           </button>
-                          <Link href="http://localhost:3000/dashboard?tab=home&state=course_overview" className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit bg-primary border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
+                          <Link href="/dashboard?tab=home&state=course_overview" className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit bg-primary border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
                             {lesson.title}
                           </Link>
                         </div>
