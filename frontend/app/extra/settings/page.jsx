@@ -1,101 +1,120 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-
+import React, { useState, Suspense } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import Sidebar from "../../../components/Sidebar";
 
-const TOGGLES = [
-  { label: "Sound effects", key: "sound" },
-  { label: "Parental Guide", key: "parental" },
-  { label: "Notifications", key: "notifications" },
-  { label: "Motivational messages", key: "motivation1" },
-  { label: "Motivational messages", key: "motivation2" },
+const faqs = [
+  {
+    question: 'How do I reset my password?',
+    answer: 'Go to Settings > Account > Reset Password. Follow the instructions sent to your email.'
+  },
+  {
+    question: 'How do I track my progress?',
+    answer: 'Your progress is visible on your profile page, including streaks, experience, and leaderboard rank.'
+  },
+  {
+    question: 'How can I contact support?',
+    answer: 'Use the Feedback button below or email us at support@savingsville.com.'
+  },
+  {
+    question: 'Where can I find more resources?',
+    answer: 'Check the Resources section in the sidebar for curated financial education materials.'
+  }
 ];
 
-export default function SettingsPage() {
-  const [toggles, setToggles] = useState({
-    sound: false,
-    parental: false,
-    notifications: false,
-    motivation1: false,
-    motivation2: true,
-  });
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const handleToggle = (key) => {
-    setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+function FeedbackPage() {
+  const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <div className="flex min-h-screen bg-[#e6cafd]">
-      {/* Hamburger for mobile */}
-      <button
-        className="fixed top-4 left-4 z-50 md:hidden bg-[#9B5398] p-2 rounded-full shadow-lg focus:outline-none"
-        onClick={() => setSidebarOpen(true)}
-        aria-label="Open sidebar"
-      >
-        <svg width="28" height="28" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="8" x2="23" y2="8"/><line x1="5" y1="16" x2="23" y2="16"/></svg>
-      </button>
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex-1 flex flex-col px-4 pt-2 pb-6">
-      {/* Breadcrumb + Stats */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2 text-base font-bold">
-          <Image src="/home.svg" alt="Home" width={22} height={22} className="inline-block" />
-          <span className="text-[#ffb300] font-bold">Home</span>
-          <span className="mx-1 text-[#7c3aed]">»</span>
-          <span className="text-[#7c3aed] font-bold">Extra</span>
-          <span className="mx-1 text-[#7c3aed]">»</span>
-          <span className="text-[#7c3aed] font-bold">Settings</span>
+    <div className="min-h-screen bg-[#e6cafd] flex flex-row">
+      <Sidebar />
+      <div className="flex-1 flex flex-col px-10 pt-6 pb-8">
+        {/* Breadcrumb + Banner + Stats */}
+        {/* Breadcrumb + Stats */}
+        {/* Breadcrumb + Stats */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2 text-lg font-bold">
+            <Image src="/home.svg" alt="Home" width={28} height={28} className="inline-block" />
+            <span className="text-[#ffb300] font-bold">Home</span>
+            <span className="mx-1 text-[#7c3aed]">»</span>
+            <span className="text-[#7c3aed] font-bold">Extra</span>
+            <span className="mx-1 text-[#7c3aed]">»</span>
+            <span className="text-[#7c3aed] font-bold">Settings</span>
+            <span className="mx-1 text-[#7c3aed]">»</span>
+            <span className="text-black font-bold">Feedback</span>
+          </div>
+          <div className="flex items-center gap-4 text-base font-bold">
+            <span className="flex items-center gap-1 text-[#ffb300]">
+              <Image src="/streak.svg" alt="Streak" width={22} height={22} /> 1
+            </span>
+            <span className="flex items-center gap-1 text-[#ff5a7b]">
+              <Image src="/lives.svg" alt="Lives" width={22} height={22} /> 4
+            </span>
+            <span className="flex items-center gap-1 text-[#ffb300]">
+              <Image src="/experince.svg" alt="Coins" width={22} height={22} /> 15
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-3 text-sm font-bold">
-          <span className="flex items-center gap-1 text-[#ffb300]">
-            <Image src="/streak.svg" alt="Streak" width={16} height={16} /> 1
-          </span>
-          <span className="flex items-center gap-1 text-[#ff5a7b]">
-            <Image src="/lives.svg" alt="Lives" width={16} height={16} /> 4
-          </span>
-          <span className="flex items-center gap-1 text-[#ffb300]">
-            <Image src="/experince.svg" alt="Coins" width={16} height={16} /> 15
-          </span>
+        {/* Banner */}
+        <div className="flex items-center justify-between bg-gradient-to-r from-[#c08bfa] to-[#a16ae8] rounded-2xl px-12 py-8 mb-6 shadow-lg">
+          <div>
+            <div className="font-extrabold text-2xl mb-1">Set Make Cent to your taste</div>
+            <div className="text-[#8c7fae] font-medium text-base">Have the flexibility to customize<br />to your perfect taste</div>
+          </div>
+          <Image src="/settings.svg" alt="Settings" width={100} height={100} />
         </div>
-      </div>
-      {/* Banner with search */}
-      <div className="flex items-center justify-between bg-gradient-to-r from-[#c08bfa] to-[#a16ae8] rounded-2xl px-6 py-3 mb-6">
-        <div>
-          <div className="font-extrabold text-lg mb-1">Set Saving Ville to your taste</div>
-          <div className="text-[#8c7fae] font-medium text-xs">Have the flexibility to customize<br />to your perfect taste</div>
-        </div>
-        <div className="flex items-center gap-2 bg-white rounded-full px-2 py-1">
-          <Image src="/search.svg" alt="Search" width={18} height={18} />
-          <input type="text" placeholder="Search settings..." className="bg-transparent outline-none text-xs px-1" />
-        </div>
-        <Image src="/settings.svg" alt="Settings" width={48} height={48} />
-      </div>
-      {/* Toggles */}
-      <div className="flex flex-col gap-4 mb-6">
-        {TOGGLES.map((toggle) => (
-          <div key={toggle.key} className="flex items-center justify-between">
-            <span className="font-extrabold text-sm text-black">{toggle.label}</span>
+
+        {/* FAQ Section */}
+        <div className="flex-1 px-0 py-0 w-full max-w-2xl mx-auto">
+          <h2 className="text-center font-extrabold text-3xl mb-6 mt-2">Frequently Asked Questions</h2>
+          <div className="flex flex-col divide-y divide-[#a16ae8] border-y border-[#a16ae8] mb-10">
+            {faqs.map((faq, idx) => (
+              <div key={idx}>
+                <button
+                  className="w-full flex justify-between items-center px-6 py-5 focus:outline-none group"
+                  onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                  aria-expanded={openIndex === idx}
+                >
+                  <span className="text-lg font-bold text-left text-black group-hover:text-[#a16ae8] transition-colors">{faq.question}</span>
+                  <svg
+                    className={`w-6 h-6 text-[#a16ae8] transform transition-transform duration-200 ${openIndex === idx ? 'rotate-180' : ''}`}
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {openIndex === idx && (
+                  <div className="bg-transparent text-[#6B7280] text-base px-6 pb-5 pt-0">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="text-center font-extrabold text-2xl mb-4 mt-10">Still unsure about something?</div>
+          <div className="flex justify-center">
             <button
-              aria-label={toggle.label}
-              onClick={() => handleToggle(toggle.key)}
-              className={`w-10 h-6 rounded-full border-2 border-[#c08bfa] flex items-center transition-colors duration-200 ${toggles[toggle.key] ? "bg-[#c08bfa]" : "bg-white"}`}
+              className="bg-[#00e38c] hover:bg-[#00b86b] text-black font-extrabold text-lg px-10 py-4 rounded-xl shadow transition"
+              onClick={() => alert('Feedback form coming soon!')}
             >
-              <span
-                className={`block w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 ${toggles[toggle.key] ? "translate-x-4 bg-[#7c3aed]" : "translate-x-1 bg-[#e6cafd]"}`}
-              ></span>
+              SEND FEEDBACK
             </button>
           </div>
-        ))}
-      </div>
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between bg-[#f3e6ff] rounded-2xl px-6 py-3 mt-auto">
-        <Link href="/extra/feedback" className="font-extrabold text-base text-[#7c3aed]">Feedback</Link>
-        <span className="font-bold text-[#8c7fae] text-base">Help Centre</span>
-      </div>
+          <div className="flex justify-center mt-2">
+            <Link href="/extra/settings" className="text-xs text-[#7c3aed] hover:underline">&larr; Back to Settings</Link>
+          </div>
+        </div>
       </div>
     </div>
+  );
+}
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <FeedbackPage />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../../components/Sidebar";
 export default function ProfilePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
