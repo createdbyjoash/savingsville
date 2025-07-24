@@ -140,7 +140,7 @@ function HomeTab() {
                           className="relative flex flex-col gap-2 items-center  z-50"
                           key={index}
                         >
-                          <button
+                          <Link href="/dashboard?tab=home&state=course_overview"
                             className="cursor-pointer icon z-50"
                             key={index}
                           >
@@ -152,7 +152,7 @@ function HomeTab() {
                               unoptimized
                               className="rounded-lg"
                             />
-                          </button>
+                          </Link>
                           <Link href="/dashboard?tab=home&state=course_overview" className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
                             {lesson.title}
                           </Link>
@@ -165,7 +165,7 @@ function HomeTab() {
                           className="flex flex-col gap-2 items-center  z-50"
                           key={index}
                         >
-                          <button className="cursor-pointer icon" key={index}>
+                          <Link href="/dashboard?tab=home&state=course_overview" className="cursor-pointer icon" key={index}>
                             <Image
                               src={
                                 lesson.id === 6 ? "/treasure.png" : "/level.png"
@@ -176,7 +176,7 @@ function HomeTab() {
                               unoptimized
                               className="rounded-lg"
                             />
-                          </button>
+                          </Link>
                           <Link href="/dashboard?tab=home&state=course_overview" className="hover:bg-[#ffffff5b] cursor-pointer text-sm font-baloo font-bold w-fit bg-primary border border-[#49384b28] px-3 py-1.5 rounded-md shadow-md">
                             {lesson.title}
                           </Link>
