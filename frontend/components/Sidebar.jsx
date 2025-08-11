@@ -13,13 +13,13 @@ const sidebarItems = [
 
 ];
 
-export default function Sidebar({ isOpen = true, onClose, handleTabChange }) {
+export default function Sidebar({ isOpen = true, onClose, handleTabChange, activeTab }) {
   const searchParams = useSearchParams();
-      const tab = searchParams.get("tab");
+      //const tab = searchParams.get("tab");
   
 
   return (
-    <div className="bg-[#E2C6FF] w-[18em] h-screen px-[2em] pt-[3em] py-[1.5em] shadow-2xl border-r-2 border-[#e6d2f7] rounded-r-2xl">
+    <div className="hidden xl:block bg-[#E2C6FF] w-[18em] h-screen px-[2em] pt-[3em] py-[1.5em] shadow-2xl border-r-2 border-[#e6d2f7] rounded-r-2xl">
       {/* Overlay for mobile */}
       <div
         className={`fixed inset-0 z-40 bg-black/30 transition-opacity md:hidden ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
@@ -51,7 +51,7 @@ export default function Sidebar({ isOpen = true, onClose, handleTabChange }) {
             href={item.link}
               key={item.label}
               className={`cursor-pointer flex items-center font-bold gap-4 px-5 py-3 rounded-xl text-base md:text-lg transition-all duration-150 w-full text-left ${
-                item.tabId === tab
+                item.tabId === activeTab
                   ? "bg-[#A994BF] text-white shadow-[0_2px_8px_0_rgba(155,83,152,0.10)] border-2 border-white"
                   : "bg-white/40 hover:bg-[#f3e6ff] border-2 border-transparent"
               }`}
