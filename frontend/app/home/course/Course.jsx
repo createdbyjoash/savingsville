@@ -13,7 +13,7 @@ const filter = [
 export default function Course() {
   const [activeFilter, setActiveFilter] = useState(0);
   return (
-    <div className="w-full h-screen space-y-5">
+    <div className="w-full h-screen space-y-5 max-sm:pt-[3em] ">
       <div className="flex items-center gap-2 text-lg font-bold font-baloo">
         <Image
           src="/home.svg"
@@ -31,12 +31,14 @@ export default function Course() {
         </Link>
       </div>
 
-      <section className="grid grid-cols-[55%_42%] w-full gap-8">
-        <section className=" w-full h-screen  overflow-y-hidden ">
-          <div className="relative space-y-4 pb-[8.5em] h-screen overflow-y-scroll scrollbar-hide">
-            <p className="font-baloo font-bold text-2xl flex flex-col">
+      <section className="grid lg:grid-cols-[55%_42%] w-full gap-8">
+
+        {/*Column 1 */}
+        <section className=" w-full h-fit lg:h-screen  overflow-y-hidden ">
+          <div className="relative space-y-4 lg:pb-[8.5em] h-fit lg:h-screen overflow-y-scroll scrollbar-hide">
+            <p className="font-baloo font-bold max-sm:text-xl text-2xl flex flex-col">
               Course
-              <span className="font-baloo font-bold text-5xl text-secondary">
+              <span className="font-baloo font-bold max-sm:text-3xl text-5xl text-secondary">
                 Investing Basics
               </span>
             </p>
@@ -46,8 +48,8 @@ export default function Course() {
               </p>
               <p className="opacity-90">{`Learn the basics of investing and what makes it special. Yow will also meet your friendly guide who will explain their approach to teaching investment.`}</p>
 
-              <div className="flex gap-5 my-6">
-                <div className="flex gap-2">
+              <div className="flex flex-wrap gap-5 my-6">
+                <div className="flex  gap-2">
                   <div className="bg-white h-8 w-8 rounded-full items-center">
                     <Image src={"/profile 3.png"} width={100} height={100} className="max-w-8 max-h-8"alt="image"/>
                   </div>
@@ -63,7 +65,7 @@ export default function Course() {
               </div>
 
               <hr className=" mb-4 border-t-[0.12em] opacity-60 border-dashed"></hr>
-              <div className="flex justify-between">
+              <div className="flex flex-wrap justify-between">
                 <p className="font-baloo font-bold my-auto">
                   Earn the following perks:
                 </p>
@@ -110,7 +112,7 @@ export default function Course() {
 
             <section>
               <p className="font-baloo font-bold">FILTER</p>
-              <div className="space-x-2 mt-3">
+              <div className="flex flex-wrap gap-2 mt-3">
                 {filter.map((item, index) => (
                   <button
                     key={index}
@@ -138,7 +140,9 @@ export default function Course() {
           </div>
         </section>
 
-        <section className="pb-[10em] h-screen overflow-y-scroll scrollbar-hide">
+
+        {/*Column 2 */}
+        <section className="pb-[10em] h-screen lg:overflow-y-scroll scrollbar-hide">
           <div className="space-y-3 rounded-[0.9em] px-[2em] py-[1em] bg-[#E2C6FF] border-2 shadow-md border-[#75757552] w-full h-fit">
             <p className="opacity-40 my-auto">{`It can be hard to stay motivated so... Make cent is designed to be fun like a game!`}</p>
           </div>
@@ -156,8 +160,8 @@ export default function Course() {
             <Image
             src="/cartoon_file.png"
             unoptimized
-            height={65}
-            width={65}
+            height={60}
+            width={60}
            
             alt="image"
           />

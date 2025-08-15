@@ -132,13 +132,13 @@ export default function VideoPlayer({
       }}
     >
       <div
-        className={`relative w-full rounded-xl overflow-hidden shadow-lg bg-black aspect-[${aspectRatio}]`}
+        className={`relative w-full rounded-xl overflow-hidden shadow-lg aspect-[${aspectRatio}]`}
       >
         <video
           ref={videoRef}
           src={src}
           onTimeUpdate={handleTimeUpdate}
-          className="relative top-0 left-0 w-full h-full object-cover"
+          className="relative rounded-md top-0 left-0 w-full h-full object-cover"
           controls={false}
           autoPlay={autoPlay}
           tabIndex={0}
@@ -156,7 +156,7 @@ export default function VideoPlayer({
 
         {/* Controls bar */}
         <div
-          className={`absolute flex items-center w-full px-3 py-3 bg-[#5555557a] bottom-0 space-x-4 text-white transition-opacity duration-300 ${
+          className={`absolute flex items-center w-full px-3 py-3 bg-[#5555557a] bottom-0 space-x-4 max-sm:space-x-1 text-white transition-opacity duration-300 ${
             controlsVisible ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -165,16 +165,16 @@ export default function VideoPlayer({
             onClick={togglePlay}
             className="p-2 bg-white hover:text-white transition text-secondary-medium hover:bg-secondary-medium rounded-lg text-sm items-center"
           >
-            {playing ? <FaPause size={24} className="drop-shadow-md"/> : <FaPlay size={24} className="drop-shadow-md"/>}
+            {playing ? <FaPause size={24} className="drop-shadow-md max-sm:max-w-[15px] max-sm:max-h-[15px]"/> : <FaPlay size={24} className="drop-shadow-md max-sm:max-w-[15px] max-sm:max-h-[15px]"/>}
           </button>
 
           {/* Seek */}
           <div
             onClick={handleSeek}
-            className="relative flex-1 h-2 bg-gray-200 rounded cursor-pointer"
+            className="relative flex-1 h-2 max-sm:h-1 bg-gray-200 rounded cursor-pointer"
           >
             <div
-              className="absolute top-0 left-0 h-2 bg-secondary rounded"
+              className="absolute top-0 left-0 h-2 max-sm:h-1 bg-secondary rounded"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -187,7 +187,7 @@ export default function VideoPlayer({
           {/* Volume */}
           <button
             onClick={toggleMute}
-            className="p-2 bg-white hover:text-white transition text-secondary-medium hover:bg-secondary-medium rounded-lg"
+            className="p-2  bg-white hover:text-white transition text-secondary-medium hover:bg-secondary-medium rounded-lg max-sm:hidden block"
           >
             {muted ? <BsFillVolumeMuteFill size={24} className="drop-shadow-md"/> : <IoVolumeMedium size={24} className="drop-shadow-md"/>}
           </button>
@@ -198,7 +198,7 @@ export default function VideoPlayer({
             step="0.05"
             value={volume}
             onChange={handleVolumeChange}
-            className="w-20 text-secondary"
+            className="w-20 text-secondary max-sm:hidden block"
           />
 
           {/* Fullscreen */}

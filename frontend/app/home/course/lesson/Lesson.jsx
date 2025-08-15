@@ -32,9 +32,9 @@ const comments = [
 
 export default function Lesson() {
   return (
-    <div className="w-full h-screen space-y-5">
+    <div className="w-full h-screen space-y-5 max-sm:pt-[3.5em] max-md:pt-[2em] md:pt-[2.4em] lg:pt-[3em] xl:pt-0">
       <div>
-        <div className="flex flex-wrap items-center gap-2 text-lg font-bold font-baloo">
+        <div className="max-sm:hidden flex flex-wrap items-center gap-2 text-lg font-bold font-baloo">
           <Image
             src="/home.svg"
             alt="Home"
@@ -55,12 +55,12 @@ export default function Lesson() {
           </Link>
         </div>
 
-        <section className="md:pb-[10em] w-full h-screen  overflow-y-hidden grid">
-        <section className="w-full lg:h-screen  xl:overflow-y-hidden mt-7 grid lg:grid-cols-[62%_35%] overflow-y-scroll gap-6 scrollbar-hide">
+        <section className="md:pb-[10em] w-full max-md:h-fit max-sm:h-fit h-fit xl:h-screen   grid">
+        <section className="w-full lg:h-screen  mt-7 grid lg:grid-cols-[62%_35%] gap-6 scrollbar-hide">
 
           {/*First Column */}
-          <section className="flex flex-col lg:pb-[14em] lg:overflow-y-scroll scrollbar-hide">
-            <div className="w-full ">
+          <section className="flex flex-col  lg:pb-[14em] max-sm:h-fit max-md:h-fit md:h-fit lg:h-screen overflow-y-scroll scrollbar-hide">
+            
               <VideoPlayer src="/test video.mp4" />
 
               <section className="mr-0 ml-auto mb-5 w-fit max-sm:w-full justify-between mt-5 flex gap-4">
@@ -75,17 +75,17 @@ export default function Lesson() {
                 </button>
               </section>
 
-              <section className="max-sm:space-y-1 space-y-4 max-sm:mt-10">
+              <section className="max-sm:space-y-1 space-y-4 max-sm:mt-2">
                 <h2 className="font-baloo font-bold max-sm:text-3xl text-5xl text-secondary">
                   Investing Basics
                 </h2>
                 <p className="text-secondary-dark opacity-80">{`Investing is simply putting your money to work with the goal of growing it over time. While it might sound complicated, you don’t need to be a math whiz or a financial expert to get started. The key is understanding the different types of investments—like cash, bonds, and stocks—and how each one offers its own mix of risks and rewards. Think of investing as climbing a ladder: At the bottom are the safest options, like savings accounts and cash, which keep your money secure but usually grow slowly. Next up are bonds, where you lend money to a company or government in exchange for regular interest payments.`}</p>
               </section>
-            </div>
+            
           </section>
 
           {/*Second Column */}
-           <section className="pb-[10em] space-y-4 h-screen lg:overflow-y-scroll scrollbar-hide">
+           <section className="pb-[14em] space-y-4 h-screen lg:overflow-y-scroll scrollbar-hide">
             <div className="flex gap-1 rounded-[0.9em] px-3 py-[1em] bg-secondary border-2 shadow-md border-[#75757552] w-full h-fit">
                       <Image
                       src="/comment.png"

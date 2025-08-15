@@ -92,19 +92,38 @@ const lessons = [
       { id: 6, title: "Finish", completed: false, current: false },
     ],
   },
+  {
+    id: 6,
+    topic: 6,
+    title: "Inflation",
+    currentLesson: null,
+    completed: false,
+    current: false,
+    modules: [
+      { id: 1, title: "Get Started", completed: true, current: true },
+      { id: 2, title: "Lesson 2", completed: false, current: false },
+      { id: 3, title: "Lesson 3", completed: false, current: false },
+      { id: 4, title: "Lesson 4", completed: false, current: false },
+      { id: 5, title: "Lesson 5", completed: false, current: false },
+      { id: 6, title: "Finish", completed: false, current: false },
+    ],
+  },
 ];
 
 function HomeTab() {
 
   return (
     <>
-    {<div className="w-full h-screen flex flex-col gap-5 scrollbar-hide ">
+    {<div className="w-full h-screen flex flex-col gap-5 scrollbar-hide pt-[3em] xl:pt-0 ">
       <ProfileHeader />
 
-      <section className="grid grid-cols-[55%_42%] w-full gap-8">
+      <section className="grid lg:grid-cols-[55%_42%] w-full gap-8 ">
+
+        {/*Column 1 */}
         <LessonPicker lessons={lessons} />        
 
-        <section className="flex flex-col gap-4 pb-[10em] h-screen overflow-y-scroll scrollbar-hide">
+        {/*Column 2 */}
+        <section className="hidden lg:flex flex-col gap-4 pb-[10em] h-screen overflow-y-scroll scrollbar-hide">
           <div className="flex gap-3 rounded-[0.9em] font-baloo font-bold px-[2em] py-[1em] text-2xl bg-[#ffffff5b] border-2 border-[#ffffff52] w-full h-fit">
             <Image src={"/menu.svg"} alt="menu" height={28} width={28} />
             Topic
