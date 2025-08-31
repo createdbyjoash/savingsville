@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const gameSchema = new mongoose.Schema({
   title: String,
@@ -6,4 +6,4 @@ const gameSchema = new mongoose.Schema({
   topic_id: { type: mongoose.Schema.Types.ObjectId, ref: "Topic" },
 });
 
-module.exports = mongoose.model("Savingsville-Game", gameSchema);
+export default mongoose.model("Savingsville-Game", gameSchema);

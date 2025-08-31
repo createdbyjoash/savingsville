@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userProgressSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
@@ -8,4 +8,4 @@ const userProgressSchema = new mongoose.Schema({
   calendar_activity: { type: Object },
 });
 
-module.exports = mongoose.model("Savingsville-UserProgress", userProgressSchema);
+export default mongoose.model("Savingsville-UserProgress", userProgressSchema);

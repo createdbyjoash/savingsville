@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const contentReviewSchema = new mongoose.Schema({
   content_type: { type: String, enum: ['quiz', 'course', 'practice', 'game'] },
@@ -8,4 +8,4 @@ const contentReviewSchema = new mongoose.Schema({
   reviewed_at: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Savingsville-ContentReview", contentReviewSchema);
+export default mongoose.model("Savingsville-ContentReview", contentReviewSchema);

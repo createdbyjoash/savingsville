@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const feedbackSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -6,4 +6,4 @@ const feedbackSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Savingsville-Feedback", feedbackSchema);
+export default mongoose.model("Savingsville-Feedback", feedbackSchema);

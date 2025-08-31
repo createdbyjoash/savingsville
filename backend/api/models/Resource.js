@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const resourceSchema = new mongoose.Schema({
   title: String,
@@ -7,4 +7,4 @@ const resourceSchema = new mongoose.Schema({
   media_link: String,
 });
 
-module.exports = mongoose.model("Savingsville-Resource", resourceSchema);
+export default mongoose.model("Savingsville-Resource", resourceSchema);

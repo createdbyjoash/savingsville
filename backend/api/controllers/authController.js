@@ -1,73 +1,180 @@
-const User = require('../models/User');
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { sendResponse } from "../utils/responseHandler.js";
+import User from "../models/User.js";
+import { sendEmail } from "../utils/mailer.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
-
-exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
-
+// REGISTER
+export const registerUser = async (req, res) => {
   try {
-    // Check if user already exists
-    const existing = await User.findOne({ email });
-    if (existing) return res.status(400).json({ message: "Email already in use" });
+    const { name, email, password } = req.body;
 
-    // Hash password
-    const hashed = await bcrypt.hash(password, 10);
-
-    // Create user with only required fields
-    const newUser = await User.create({
-      name,
-      email,
-      password: hashed,
-    });
-
-    res.status(201).json({ message: "User registered successfully", userId: newUser._id });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-};
-
-
-exports.updateProfile = async (req, res) => {
-  const userId = req.user.userId; // comes from JWT middleware
-  const { username, preferred_language, age_group } = req.body;
-
-  try {
-    const existingUsername = await User.findOne({ username });
-    if (existingUsername && existingUsername._id.toString() !== userId) {
-      return res.status(400).json({ message: "Username already taken" });
+    // Only require name, email, password
+    if (!name || !email || !password) {
+      return sendResponse(res, 400, false, "Name, email, and password are required");
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { username, preferred_language, age_group },
-      { new: true }
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return sendResponse(res, 400, false, "Email already registered");
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 mins expiry
+
+    // Create user
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      otp,
+      otpExpiry,
+      isVerified: false, // make sure user has to verify
+    });
+
+    await newUser.save();
+
+    // Send OTP email
+    await sendEmail({
+      to: email,
+      subject: "Verify your email - Savingsville",
+      text: `Your OTP is ${otp}. It will expire in 10 minutes.`,
+      html: `<p>Your OTP is <b>${otp}</b>. It will expire in 10 minutes.</p>`,
+    });
+
+    return sendResponse(res, 201, true, "User registered. OTP sent to email.");
+  } catch (err) {
+    return sendResponse(res, 500, false, "Server error", null, err.message);
+  }
+};
+
+export const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) return sendResponse(res, 400, false, "User not found");
+
+    if (user.isVerified) {
+      return sendResponse(res, 400, false, "User already verified");
+    }
+
+    if (user.otp !== otp || user.otpExpiry < Date.now()) {
+      return sendResponse(res, 400, false, "Invalid or expired OTP");
+    }
+
+    // ✅ Mark verified
+    user.isVerified = true;
+    user.otp = null;
+    user.otpExpiry = null;
+    await user.save();
+
+    // ✅ Issue JWT token
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
     );
 
-    res.status(200).json({ message: "Profile updated", user: updatedUser });
+    return sendResponse(res, 200, true, "Email verified successfully", {
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        isVerified: user.isVerified,
+      },
+    });
   } catch (err) {
-    res.status(500).json({ message: "Update failed", error: err.message });
+    return sendResponse(res, 500, false, "Server error", null, err.message);
   }
 };
 
-
-exports.login = async (req, res) => {
-  const { emailOrUsername, password } = req.body;
-
+// LOGIN
+export const loginUser = async (req, res) => {
   try {
-    const user = await User.findOne({
-      $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
-    });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) return sendResponse(res, 400, false, "Invalid credentials");
+    if (!user.isVerified)
+      return sendResponse(res, 403, false, "Please verify your email first");
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch) return sendResponse(res, 400, false, "Invalid credentials");
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
-    res.status(200).json({ token, user });
+    user.total_logins += 1;
+    await user.save();
+
+    return sendResponse(res, 200, true, "Login successful", {
+      token,
+      user: { id: user._id, name: user.name, email: user.email },
+    });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    return sendResponse(res, 500, false, "Server error", null, err.message);
   }
 };
+
+
+export const resendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return sendResponse(res, 400, false, "Email is required");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return sendResponse(res, 404, false, "User not found");
+    }
+
+    if (user.isVerified) {
+      return sendResponse(res, 400, false, "User already verified");
+    }
+
+    // generate new OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+
+    user.otp = otp;
+    user.otpExpiry = otpExpiry;
+    await user.save();
+
+    
+    
+      try {
+        await sendEmail({
+          to: email,
+          subject: "Your new OTP - Savingsville",
+          text: `Your new OTP is ${otp}. It will expire in 10 minutes.`,
+          html: `<p>Your new OTP is <b>${otp}</b>. It will expire in 10 minutes.</p>`,
+        });
+      } catch (mailErr) {
+        console.error("Email send error:", mailErr.message);
+        return sendResponse(
+          res,
+          502,
+          false,
+          "Failed to send OTP email. Please check your network connection and try again.",
+          null,
+          mailErr.message
+        );
+      }
+    
+
+    return sendResponse(res, 200, true, "A new OTP has been sent to your email.");
+  } catch (err) {
+    return sendResponse(res, 500, false, "Server error", null, err.message);
+  }
+};
+

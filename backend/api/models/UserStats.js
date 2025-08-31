@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userStatsSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
@@ -9,4 +9,4 @@ const userStatsSchema = new mongoose.Schema({
   daily_goal: { type: Object },
 });
 
-module.exports = mongoose.model("Savingsville-UserStats", userStatsSchema);
+export default mongoose.model("Savingsville-UserStats", userStatsSchema);

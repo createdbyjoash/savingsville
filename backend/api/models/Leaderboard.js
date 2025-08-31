@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const leaderboardSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -7,4 +7,4 @@ const leaderboardSchema = new mongoose.Schema({
   badge_level: String,
 });
 
-module.exports = mongoose.model("Savingsville-Leaderboard", leaderboardSchema);
+export default mongoose.model("Savingsville-Leaderboard", leaderboardSchema);

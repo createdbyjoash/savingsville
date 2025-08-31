@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+
+import mongoose from "mongoose";
 
 const adminUserSchema = new mongoose.Schema({
   name: String,
@@ -8,4 +9,4 @@ const adminUserSchema = new mongoose.Schema({
   status: { type: String, enum: ['active', 'disabled'] },
 });
 
-module.exports = mongoose.model("Savingsville-AdminUser", adminUserSchema);
+export default mongoose.model("Savingsville-AdminUser", adminUserSchema);

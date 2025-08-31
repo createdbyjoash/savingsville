@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const instructorSchema = new mongoose.Schema({
   name: String,
   profile_image: String,
 });
 
-module.exports = mongoose.model("Savingsville-Instructor", instructorSchema);
+export default mongoose.model("Savingsville-Instructor", instructorSchema);
