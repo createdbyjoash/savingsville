@@ -7,9 +7,16 @@ import { IoMdArrowBack } from "react-icons/io";
 
 export default function UpdateUsernamePopup({handleFormStep}) {
 
-    const handleNext = () => {
-  handleFormStep("step3");
-};
+    const [username, setUsername] = React.useState("");
+
+    const handleNext = (e) => {
+      e.preventDefault();
+      if (!username) {
+        alert("Please enter a username.");
+        return;
+      }
+      handleFormStep("step3");
+    };
 
 const handlePrev = () => {
   handleFormStep("step1");
@@ -39,18 +46,17 @@ const handlePrev = () => {
             </button>
             <h3 className="font-bold">{`Get your profile started!`}</h3>
             <p className="text-gray-700">{`Add a username that’s unique to you! this is how you will appear to others.`}</p>
-            <div className="grid space-y-3 max-sm:w-full w-[22em] mt-6">
-              <Input placeholder="Username"></Input>
+            <form className="grid space-y-3 max-sm:w-full w-[22em] mt-6" onSubmit={handleNext}>
+              <Input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required />
               <small className="text-gray-600 text-center mx-auto">
                 Build trust by using your full name or business name
               </small>
               <AccentButton
-    
+                type="submit"
                 label="Create My Account"
-                onClick={handleNext}
                 className="w-full mt-3"
               />
-            </div>
+            </form>
           </div>
         </div>
       </div>
