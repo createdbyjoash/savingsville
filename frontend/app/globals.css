@@ -76,3 +76,8 @@ body {
   transform: translateY(-5px); /* Tailwind's hover:translate-y-[-5px] */
 }
 
+
+button {
+  cursor: pointer;
+}
+

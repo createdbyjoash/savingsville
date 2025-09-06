@@ -9,23 +9,49 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 mins expiry
+
     // Only require name, email, password
     if (!name || !email || !password) {
-      return sendResponse(res, 400, false, "Name, email, and password are required");
+      return sendResponse(
+        res,
+        400,
+        false,
+        "Name, email, and password are required"
+      );
     }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return sendResponse(res, 400, false, "Email already registered");
+    if (existingUser && existingUser.isVerified) {
+      return sendResponse(res, 400, false, "Login. Email already registered");
+    }
+
+    if (existingUser && !existingUser.isVerified) {
+      // Update OTP and expiry
+      existingUser.otp = otp;
+      existingUser.otpExpiry = otpExpiry;
+      await existingUser.save();
+
+      await sendEmail({
+        to: email,
+        subject: "Verify your email - Savingsville",
+        text: `Your OTP is ${otp}. It will expire in 10 minutes.`,
+        html: `<p>Your OTP is <b>${otp}</b>. It will expire in 10 minutes.</p>`,
+      });
+
+      return sendResponse(
+        res,
+        201,
+        true,
+        "User registered. OTP sent to email."
+      );
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Generate OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 mins expiry
 
     // Create user
     const newUser = new User({
@@ -75,11 +101,9 @@ export const verifyOtp = async (req, res) => {
     await user.save();
 
     // ✅ Issue JWT token
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     return sendResponse(res, 200, true, "Email verified successfully", {
       token,
@@ -124,7 +148,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-
 export const resendOtp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -150,31 +173,32 @@ export const resendOtp = async (req, res) => {
     user.otpExpiry = otpExpiry;
     await user.save();
 
-    
-    
-      try {
-        await sendEmail({
-          to: email,
-          subject: "Your new OTP - Savingsville",
-          text: `Your new OTP is ${otp}. It will expire in 10 minutes.`,
-          html: `<p>Your new OTP is <b>${otp}</b>. It will expire in 10 minutes.</p>`,
-        });
-      } catch (mailErr) {
-        console.error("Email send error:", mailErr.message);
-        return sendResponse(
-          res,
-          502,
-          false,
-          "Failed to send OTP email. Please check your network connection and try again.",
-          null,
-          mailErr.message
-        );
-      }
-    
+    try {
+      await sendEmail({
+        to: email,
+        subject: "Your new OTP - Savingsville",
+        text: `Your new OTP is ${otp}. It will expire in 10 minutes.`,
+        html: `<p>Your new OTP is <b>${otp}</b>. It will expire in 10 minutes.</p>`,
+      });
+    } catch (mailErr) {
+      console.error("Email send error:", mailErr.message);
+      return sendResponse(
+        res,
+        502,
+        false,
+        "Failed to send OTP email. Please check your network connection and try again.",
+        null,
+        mailErr.message
+      );
+    }
 
-    return sendResponse(res, 200, true, "A new OTP has been sent to your email.");
+    return sendResponse(
+      res,
+      200,
+      true,
+      "A new OTP has been sent to your email."
+    );
   } catch (err) {
     return sendResponse(res, 500, false, "Server error", null, err.message);
   }
 };
-

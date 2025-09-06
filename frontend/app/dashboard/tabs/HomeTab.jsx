@@ -5,6 +5,7 @@ import { PiNote } from "react-icons/pi";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import ProfileHeader from "@/components/ProfileHeader";
 import LessonPicker from "@/components/LessonPicker";
+import { useAuth } from "@/app/context/AuthContext";
 
 
 const lessons = [
@@ -112,10 +113,12 @@ const lessons = [
 
 function HomeTab() {
 
+  const { user } = useAuth()
+
   return (
     <>
     {<div className="w-full h-screen flex flex-col gap-5 scrollbar-hide pt-[3em] xl:pt-0 ">
-      <ProfileHeader />
+      <ProfileHeader username={user?.name} />
 
       <section className="grid lg:grid-cols-[55%_42%] w-full gap-8 ">
 

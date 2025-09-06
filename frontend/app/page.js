@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "./context/AuthContext";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +14,8 @@ import ConfirmEmailPopup from "./loginflow/ConfirmEmailPopup";
 import { IoMdMenu } from "react-icons/io";
 import Sidebar from "@/components/Sidebar2";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios"
 
 
 
@@ -44,6 +47,15 @@ function Home() {
   // const [pageIndex, setPageIndex] = useState(0);
   const searchParams = useSearchParams();
   const router = useRouter()
+  const { login, token } = useAuth();
+
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [otp, setOtp] = useState("")
+  const [isNewUser, setIsNewUser] = useState(true)
 
 
   const handleFormStep = (step) => {
@@ -61,6 +73,109 @@ function Home() {
       router.push("/onboarding");
     }
   }, [searchParams, router]);
+
+
+
+
+
+
+  const otpMutation = useMutation({
+  mutationFn: () => {
+    if (!otp) {
+      alert("Please fill in all required fields.");
+      return Promise.reject(new Error("Missing fields")); // reject so mutation handles it
+    }
+
+    // ✅ return the Axios call
+    return axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/verify-otp`, {
+      email,
+      otp,
+    });
+  },
+  onSuccess: (res) => {
+    console.log("Mutation succeeded otp verified, raw response:", res);
+
+    // If your API wraps data, log deeper
+    if (res?.data) {
+      console.log("OTP API returned:", res.data);
+
+     
+      const { token, user } = res.data.data;
+      console.log("token: ", token);
+      console.log("user: ", user);
+      login(user, token);
+      handleFormStep("step3");
+      // window.location.href = isNewUser ? "/quiz" : "/dashboard";
+    }
+  },
+  onError: (error) => {
+    console.log("Mutation failed:", error.message);
+
+    if (error.response) {
+      console.log("Error response data:", error.response.data);
+    }
+  },
+});
+
+
+const usernameMutation = useMutation({
+  mutationFn: () => {
+
+    // ✅ return the Axios call
+    return axios.patch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/me`, {
+      username
+    }, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+  },
+  onSuccess: (res) => {
+    console.log("Mutation succeeded username updated, raw response:", res);
+
+    // If your API wraps data, log deeper
+    if (res?.data) {
+      console.log("OTP API returned:", res.data);
+      router.push("/onboarding")
+
+      // Uncomment when you're ready
+      // login(user, token);
+      // window.location.href = isNewUser ? "/quiz" : "/dashboard";
+    }
+  },
+  onError: (error) => {
+    console.log("Mutation failed:", error.message);
+
+    if (error.response) {
+      console.log("Error response data:", error.response.data);
+    }
+  },
+});
+
+
+  const handleUseranmeUpdate = async (e) => {
+    e.preventDefault();
+    if (!username) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/me`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer <token>`
+        },
+        body: JSON.stringify({
+          username
+        })
+      });
+      
+    } catch (error) {
+      
+    }
+    return null
+  }
   
 
 const handleCloseSignup = () => {
@@ -269,11 +384,37 @@ const goToStep = (step) => {
         </div>
       </footer>
 
-      {signupStep === "step1" && <CreateAccountPopup handleFormStep={handleFormStep} />}
+      {signupStep === "step1" && 
+      
+      <CreateAccountPopup 
+        name={name}
+        email={email}
+        password={password}
+        setName={setName}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        handleFormStep={handleFormStep} 
+        isNewUser={isNewUser}
+        setIsNewUser={setIsNewUser}
+        />}
 
-      {signupStep === "step2" && <UpdateUsernamePopup handleFormStep={handleFormStep} />}
 
-      {signupStep === "step3" && <ConfirmEmailPopup handleFormStep={handleFormStep} />}
+        {signupStep === "step2" && 
+        <ConfirmEmailPopup 
+          email={email} 
+          otp={otp} 
+          setOtp={setOtp} 
+          otpMutation={otpMutation} 
+          handleFormStep={handleFormStep} 
+          />}
+
+      {signupStep === "step3" && <UpdateUsernamePopup 
+        username={username}
+        setUsername={setUsername}
+        usernameMutation={usernameMutation}
+        handleFormStep={handleFormStep} />}
+
+      
 
       
     </main>

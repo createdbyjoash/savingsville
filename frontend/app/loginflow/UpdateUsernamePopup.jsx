@@ -5,9 +5,7 @@ import AccentButton from "@/components/AccentButton";
 import Image from "next/image";
 import { IoMdArrowBack } from "react-icons/io";
 
-export default function UpdateUsernamePopup({handleFormStep}) {
-
-    const [username, setUsername] = React.useState("");
+export default function UpdateUsernamePopup({handleFormStep, usernameMutation, username, setUsername}) {
 
     const handleNext = (e) => {
       e.preventDefault();
@@ -19,7 +17,7 @@ export default function UpdateUsernamePopup({handleFormStep}) {
     };
 
 const handlePrev = () => {
-  handleFormStep("step1");
+  handleFormStep("step2");
 };
 
 
@@ -40,18 +38,23 @@ const handlePrev = () => {
             />
           </div>
           <div  className="py-[3.5em] max-sm:py-[1.8em] max-sm:px-4 px-10">
-            <button className="flex gap-1 items-center cursor-pointer text-2xl mb-8 font-baloo font-bold text-secondary" onClick={handlePrev}>
+            {/*<button className="flex gap-1 items-center cursor-pointer text-2xl mb-8 font-baloo font-bold text-secondary" onClick={handlePrev}>
               <IoMdArrowBack stroke="10" className="text-secondary my-auto" />{" "}
               <span className="my-auto">Back</span>
-            </button>
+            </button>*/}
             <h3 className="font-bold">{`Get your profile started!`}</h3>
             <p className="text-gray-700">{`Add a username that’s unique to you! this is how you will appear to others.`}</p>
-            <form className="grid space-y-3 max-sm:w-full w-[22em] mt-6" onSubmit={handleNext}>
+            <form className="grid space-y-3 max-sm:w-full w-[22em] mt-6" onSubmit={(e) => {
+          e.preventDefault();
+          usernameMutation.mutate();
+        }}>
               <Input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required />
               <small className="text-gray-600 text-center mx-auto">
                 Build trust by using your full name or business name
               </small>
               <AccentButton
+              disabled={usernameMutation.isPending}
+              loading={usernameMutation.isPending}
                 type="submit"
                 label="Create My Account"
                 className="w-full mt-3"
