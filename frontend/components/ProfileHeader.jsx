@@ -22,7 +22,7 @@ export default function ProfileHeader({ username }) {
                 <Image src={"/streak.svg"} alt="streak" height={30} width={30} />0
               </div>
               <div className="flex item-center gap-2 text-red-500">
-                <Image src={"/lives.svg"} alt="streak" height={30} width={30} />0
+                <Image src={"/lives.svg"} alt="streak" height={30} width={30} />100
               </div>
               <div className="flex item-center gap-2 text-yellow-500">
                 <Image src={"/coin.svg"} alt="streak" height={30} width={30} />
