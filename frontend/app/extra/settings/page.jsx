@@ -46,13 +46,13 @@ function FeedbackPage() {
           </div>
           <div className="flex items-center gap-4 text-base font-bold">
             <span className="flex items-center gap-1 text-[#ffb300]">
-              <Image src="/streak.svg" alt="Streak" width={22} height={22} /> 1
+              <Image src="/streak.svg" alt="Streak" width={22} height={22} /> 0
             </span>
             <span className="flex items-center gap-1 text-[#ff5a7b]">
-              <Image src="/lives.svg" alt="Lives" width={22} height={22} /> 4
+              <Image src="/lives.svg" alt="Lives" width={22} height={22} /> 0
             </span>
             <span className="flex items-center gap-1 text-[#ffb300]">
-              <Image src="/experince.svg" alt="Coins" width={22} height={22} /> 15
+              <Image src="/experince.svg" alt="Coins" width={22} height={22} /> 0
             </span>
           </div>
         </div>

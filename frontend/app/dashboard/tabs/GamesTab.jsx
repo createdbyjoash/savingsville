@@ -1,9 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
-
+import ProfileHeader from "@/components/ProfileHeader";
+import { useAuth } from "@/app/context/AuthContext";
 export default function GamesTab() {
+  const { user } = useAuth();
   return (
-    <div className="min-h-screen bg-[#e6cafd] flex flex-col items-center py-8 px-2 md:px-0">
+    <div className="w-full h-screen space-y-5 pt-[3em] xl:pt-0">
+      <ProfileHeader username={user?.name} />
       {/* Breadcrumb */}
       <div className="w-full max-w-6xl mb-4">
         <div className="flex items-center gap-2 text-lg font-heading font-bold">

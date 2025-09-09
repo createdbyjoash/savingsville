@@ -1,6 +1,8 @@
 
 "use client";
 import React, { useState } from "react";
+import { useAuth } from '@/app/context/AuthContext';
+import { useRouter } from 'next/navigation';
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 const sidebarItems = [
@@ -14,6 +16,8 @@ const sidebarItems = [
 ];
 
 export default function Sidebar({ isOpen = true, onClose, handleTabChange, activeTab }) {
+  const { logout } = useAuth();
+  const router = useRouter();
   const searchParams = useSearchParams();
       //const tab = searchParams.get("tab");
   
@@ -66,7 +70,13 @@ export default function Sidebar({ isOpen = true, onClose, handleTabChange, activ
         </nav>
         {/* Log Out */}
         <div className="mt-auto pt-4">
-          <button className="cursor-pointer flex items-center gap-4 px-5 py-3 rounded-xl text-base md:text-lg font-semibold text-[#9B5398] bg-white/40 hover:bg-[#f3e6ff] w-full font-heading tracking-tight border-2 border-transparent">
+          <button
+            className="cursor-pointer flex items-center gap-4 px-5 py-3 rounded-xl text-base md:text-lg font-semibold text-[#9B5398] bg-white/40 hover:bg-[#f3e6ff] w-full font-heading tracking-tight border-2 border-transparent"
+            onClick={() => {
+              logout();
+              router.push('/'); // Redirect to home or login page
+            }}
+          >
             <span className="flex items-center justify-center w-8 h-8 rounded-lg">
               <img src="/logout.svg" alt="Logout icon" className="w-6 h-6" />
             </span>

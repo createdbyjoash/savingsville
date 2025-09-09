@@ -46,15 +46,15 @@ function InstructorDetailPage() {
             <div className="flex items-center gap-6 text-lg font-bold">
             <span className="flex items-center gap-2">
               <Image src="/streak.svg" alt="Streak" width={22} height={22} />
-              <span className="text-[#ffb300]">1</span>
+              <span className="text-[#ffb300]">0</span>
             </span>
             <span className="flex items-center gap-2">
               <Image src="/lives.svg" alt="Lives" width={22} height={22} />
-              <span className="text-[#ff5a7b]">4</span>
+              <span className="text-[#ff5a7b]">0</span>
             </span>
             <span className="flex items-center gap-2">
               <Image src="/experince.svg" alt="Coins" width={22} height={22} />
-              <span className="text-[#ffb300]">15</span>
+              <span className="text-[#ffb300]">0</span>
             </span>
             </div>
           </div>

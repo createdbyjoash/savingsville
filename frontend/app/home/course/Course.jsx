@@ -77,7 +77,7 @@ export default function Course() {
                       height={30}
                       width={30}
                     />
-                    1
+                    0
                   </div>
                   <div className="flex item-center gap-2 opacity-90">
                     <Image
@@ -86,7 +86,7 @@ export default function Course() {
                       height={30}
                       width={30}
                     />
-                    4
+                    0
                   </div>
                   <div className="flex item-center gap-2 opacity-90">
                     <Image
@@ -95,7 +95,7 @@ export default function Course() {
                       height={30}
                       width={30}
                     />
-                    15
+                    0
                   </div>
                 </div>
               </div>

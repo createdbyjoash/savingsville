@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileHeader from "@/components/ProfileHeader";
+import { useAuth } from "@/app/context/AuthContext";
 import Image from "next/image";
 import Link from "next/link";
 import { TiArrowForward } from "react-icons/ti";
@@ -50,9 +51,10 @@ const options = [
 
 
 export default function AdvancedTab() {
+  const { user } = useAuth();
   return (
     <div className="w-full h-screen space-y-5 pt-[3em] xl:pt-0">
-      <ProfileHeader />
+      <ProfileHeader username={user?.name} />
       <div className="hidden lg:flex items-center gap-2 text-lg font-bold font-baloo">
         <Image
           src="/home.svg"

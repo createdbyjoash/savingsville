@@ -19,7 +19,8 @@ export default function CreateAccountPage(
     setEmail, 
     setPassword,
     isNewUser,
-    setIsNewUser
+    setIsNewUser,
+    handleClose = () => {} // fallback to no-op if not provided
    }){
 
     const { login } = useAuth();
@@ -112,7 +113,15 @@ export default function CreateAccountPage(
       <div className="fixed bg-gray-600 top-0 bottom-0 left-0 right- w-full h-full opacity-50 z-[1050]">
       </div>
       <div className="grid place-items-center z-[1100] fixed left-auto right-auto top-0 bottom-0 w-full h-full">
-        <div className="w-[90%] md:w-[60em] h-[35em] max-sm:h-fit bg-white max-sm:rounded-[1em]  rounded-[2.9em] shadow-xl md:grid grid-cols-2 flex flex-col">
+        <div className="w-[90%] md:w-[60em] h-[35em] max-sm:h-fit bg-white max-sm:rounded-[1em]  rounded-[2.9em] shadow-xl md:grid grid-cols-2 flex flex-col relative">
+          {/* Close button */}
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-800 z-[1200]"
+            aria-label="Close"
+          >
+            &times;
+          </button>
           <div className="relative">
             <Image
               src="/signup-image.png"

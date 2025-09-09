@@ -53,13 +53,13 @@ function SettingsPage() {
         </div>
         <div className="flex items-center gap-3 text-sm font-bold">
           <span className="flex items-center gap-1 text-[#ffb300]">
-            <Image src="/streak.svg" alt="Streak" width={16} height={16} /> 1
+            <Image src="/streak.svg" alt="Streak" width={16} height={16} />0
           </span>
           <span className="flex items-center gap-1 text-[#ff5a7b]">
-            <Image src="/lives.svg" alt="Lives" width={16} height={16} /> 4
+            <Image src="/lives.svg" alt="Lives" width={16} height={16} />0
           </span>
           <span className="flex items-center gap-1 text-[#ffb300]">
-            <Image src="/experince.svg" alt="Coins" width={16} height={16} /> 15
+            <Image src="/experince.svg" alt="Coins" width={16} height={16} /> 0
           </span>
         </div>
       </div>
