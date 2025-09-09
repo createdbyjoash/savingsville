@@ -19,14 +19,14 @@ export default function ProfileHeader({ username }) {
     
             <div className="hidden md:flex gap-[1.5em] text-2xl items-center font-baloo font-bold">
               <div className="flex item-center gap-2 text-orange-400">
-                <Image src={"/streak.svg"} alt="streak" height={30} width={30} />1
+                <Image src={"/streak.svg"} alt="streak" height={30} width={30} />0
               </div>
               <div className="flex item-center gap-2 text-red-500">
-                <Image src={"/lives.svg"} alt="streak" height={30} width={30} />4
+                <Image src={"/lives.svg"} alt="streak" height={30} width={30} />0
               </div>
               <div className="flex item-center gap-2 text-yellow-500">
                 <Image src={"/coin.svg"} alt="streak" height={30} width={30} />
-                15
+                0
               </div>
             </div>
           </section>
