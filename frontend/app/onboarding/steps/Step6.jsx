@@ -61,6 +61,7 @@ const categories = [
 ];
 export default function Step6() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   return (
@@ -122,9 +123,17 @@ export default function Step6() {
             <WhiteButton label="Back" onClick={() => router.push(`?tab=5`)} />
             <AccentButton
               label="Continue"
-              onClick={() => router.push(`/dashboard?tab=home`)}
+              onClick={() => {
+                if (activeIndex === null) {
+                  setError("Please select a language before continuing.");
+                  return;
+                }
+                setError("");
+                router.push(`/dashboard?tab=home`);
+              }}
             />
           </div>
+          {error && <p className="text-red-500 font-medium mt-2">{error}</p>}
       </section>
 
       

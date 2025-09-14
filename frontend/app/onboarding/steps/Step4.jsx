@@ -32,6 +32,7 @@ const questions = [
 
 export default function Step4() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [error, setError] = useState("");
   const router = useRouter();
   const { token } = useAuth();
 
@@ -119,16 +120,20 @@ export default function Step4() {
             <WhiteButton label="Back" onClick={() => router.push(`?tab=3`)} />
             <AccentButton
               label={agegroupMutation.isPending ? "Saving..." : "Continue"}
-              disabled={activeIndex === null || agegroupMutation.isPending}
+              disabled={agegroupMutation.isPending}
               onClick={() => {
-                if (activeIndex !== null) {
-                  const chosenAgeGroup = questions[activeIndex].label;
-                  console.log("Selected age group:", chosenAgeGroup);
-                  agegroupMutation.mutate(chosenAgeGroup);
+                if (activeIndex === null) {
+                  setError("Please select your age group before continuing.");
+                  return;
                 }
+                setError("");
+                const chosenAgeGroup = questions[activeIndex].label;
+                console.log("Selected age group:", chosenAgeGroup);
+                agegroupMutation.mutate(chosenAgeGroup);
               }}
             />
           </div>
+          {error && <p className="text-red-500 font-medium mt-2">{error}</p>}
         </div>
 
         {/* Right side image */}

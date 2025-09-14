@@ -27,6 +27,7 @@ const reasons = [
 
 export default function Step2() {
 const [activeIndex, setActiveIndex] = useState(null);
+const [error, setError] = useState("");
 const router = useRouter();
 
   return (
@@ -89,8 +90,16 @@ const router = useRouter();
 
           <div className="flex gap-3 w-fit">
             <WhiteButton label="Back" onClick={() => router.push(`?tab=1`)} />
-            <AccentButton label="Continue" onClick={() => router.push(`?tab=3`)}/>
+            <AccentButton label="Continue" onClick={() => {
+              if (activeIndex === null) {
+                setError("Please select a reason before continuing.");
+                return;
+              }
+              setError("");
+              router.push(`?tab=3`);
+            }}/>
           </div>
+          {error && <p className="text-red-500 font-medium mt-2">{error}</p>}
         </div>
 
         <div className="max-[890px]:hidden max-md:hidden   grid w-full h-full place-items-center">
