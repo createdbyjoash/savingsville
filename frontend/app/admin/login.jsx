@@ -13,7 +13,6 @@ export default function AdminLogin() {
   const handleLogin = (e) => {
     e.preventDefault();
     setError("");
-    // Simulate login success
     if (email === "admin@example.com" && password === "admin123") {
       router.push("/admin/dashboard");
     } else {
@@ -22,31 +21,31 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="grid place-items-center h-screen bg-gray-100">
-      <form
-        className="bg-white p-8 rounded-xl shadow-md space-y-4 w-[350px]"
-        onSubmit={handleLogin}
-      >
-        <h2 className="font-baloo text-2xl font-bold text-secondary mb-4 text-center">
-          Admin Login
-        </h2>
-        <Input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          type="email"
-        />
-        <Input
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          type="password"
-        />
-        <AccentButton type="submit" label="Login" className="w-full" />
-        {error && <p className="text-red-500 text-center">{error}</p>}
-      </form>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#F6F4FF] to-[#E2C6FF]">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-10 flex flex-col items-center">
+        <h1 className="font-baloo text-3xl font-bold text-primary mb-2">SavingsVille Admin</h1>
+        <span className="text-secondary font-semibold mb-6">Sign in to your admin account</span>
+        <form className="w-full space-y-5" onSubmit={handleLogin}>
+          <Input
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            type="email"
+            className="w-full"
+          />
+          <Input
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            type="password"
+            className="w-full"
+          />
+          <AccentButton type="submit" label="Login" className="w-full mt-2" />
+          {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+        </form>
+      </div>
     </div>
   );
 }
