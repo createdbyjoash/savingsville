@@ -125,10 +125,11 @@ export default function Step6() {
               label="Continue"
               onClick={() => {
                 if (activeIndex === null) {
-                  setError("Please select a language before continuing.");
+                  router.push(`/dashboard?tab=home`);
+                  //setError("Please select a language before continuing.");
                   return;
                 }
-                setError("");
+                //setError("");
                 router.push(`/dashboard?tab=home`);
               }}
             />

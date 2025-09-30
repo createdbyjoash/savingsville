@@ -22,37 +22,30 @@ const dashboardTabs = [
 ];
 
 // Any first path segment in this array will render the dashboardTabs
-// e.g. /dashboard/*, /home/*, /about/*  → all show dashboardTabs
 const dashboardRouteSegments = ["dashboard", "home", "about"];
 
-export default function Sidebar({ isOpen, onSidebarClose }) {
+export default function Sidebar({
+  isOpen,
+  onSidebarClose,
+  onAuthClick, // 👈 add this as a prop
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Path parsing
-  const segments = pathname.split("/").filter(Boolean); // e.g. "/home/course" -> ["home","course"]
-  const baseSegment = segments[0] || "";                // "home" in the above example
+  const segments = pathname.split("/").filter(Boolean);
+  const baseSegment = segments[0] || "";
 
-  // Is this a route family that should show the dashboard-style tabs?
   const isDashboardRoute = dashboardRouteSegments.includes(baseSegment);
 
-  // Decide active tab:
-  // 1) prefer ?tab=...
-  // 2) otherwise, if the first path segment itself is a known tabId (e.g. "/home/..."), use it
-  // 3) otherwise default to "home" so something is highlighted on dashboard routes
-  const tabIds = new Set(dashboardTabs.map(t => t.tabId));
+  const tabIds = new Set(dashboardTabs.map((t) => t.tabId));
   const tabFromQuery = searchParams.get("tab");
   const tabFromPath = tabIds.has(baseSegment) ? baseSegment : null;
 
   const currentTabId = isDashboardRoute
-    ? (tabFromQuery || tabFromPath || "home")
+    ? tabFromQuery || tabFromPath || "home"
     : null;
 
-  // Build the list to render
   const tabsToRender = isDashboardRoute ? dashboardTabs : fallbackTabs;
-
-  // Build links for dashboard tabs so they stay inside the current route family
-  // Example: if you're on /home/course, clicking "Goals" goes to /home?tab=goals
   const baseRouteForLinks = isDashboardRoute ? `/${baseSegment}` : "";
 
   return (
@@ -72,21 +65,23 @@ export default function Sidebar({ isOpen, onSidebarClose }) {
 
             {/* Tabs */}
             {tabsToRender.map((item, index) => {
-              // Determine href per tab
               const href = isDashboardRoute
                 ? `/dashboard?tab=${item.tabId}`
                 : item.link;
 
-              // Active state:
-              const isActive = isDashboardRoute 
+              const isActive = isDashboardRoute
                 ? currentTabId === item.tabId
-                : pathname === item.link.split("?")[0]; // match without query for fallback tabs
+                : pathname === item.link.split("?")[0];
 
               return (
                 <li
                   key={index}
-                  className={`grid w-full rounded-md transition  ${
-                    isActive ? baseSegment === "home" ? "hover:bg-white/20" : "bg-purple-600 shadow-lg" : "hover:bg-white/20"
+                  className={`grid w-full rounded-md transition ${
+                    isActive
+                      ? baseSegment === "home"
+                        ? "hover:bg-white/20"
+                        : "bg-purple-600 shadow-lg"
+                      : "hover:bg-white/20"
                   }`}
                 >
                   <Link
@@ -106,6 +101,21 @@ export default function Sidebar({ isOpen, onSidebarClose }) {
                 </li>
               );
             })}
+
+            {/* 👇 Auth Button (only for fallback tabs) */}
+            {!isDashboardRoute && (
+              <li className="grid w-full rounded-md transition hover:bg-white/20">
+                <button
+                  onClick={() => {
+                    onSidebarClose();
+                    onAuthClick(); // trigger popup
+                  }}
+                  className="w-full text-gray-200 bg-secondary  border-gray-100/70 border-2 rounded-full font-baloo font-bold flex items-center justify-center py-3 px-2"
+                >
+                  Sign In
+                </button>
+              </li>
+            )}
           </ul>
         </aside>
       )}

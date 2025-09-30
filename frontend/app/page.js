@@ -236,7 +236,11 @@ const goToStep = (step) => {
               
               
             </header>
-            <Sidebar isOpen={sidebarOpen} onSidebarClose={() => setSidebarOpen(false)}/>
+            <Sidebar onAuthClick={
+              () => {
+                setSidebarOpen(false)
+                setSignupStep("step1")
+              }} isOpen={sidebarOpen} onSidebarClose={() => setSidebarOpen(false)}/>
       <div className="space-y-8 w-full lg:max-w-[1920px] mx-auto">
         
 
@@ -396,6 +400,7 @@ const goToStep = (step) => {
         handleFormStep={handleFormStep} 
         isNewUser={isNewUser}
         setIsNewUser={setIsNewUser}
+        handleClose={() => setSignupStep("")}
         />}
 
 

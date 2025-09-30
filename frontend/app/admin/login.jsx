@@ -23,8 +23,8 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#F6F4FF] to-[#E2C6FF]">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-10 flex flex-col items-center">
-        <h1 className="font-baloo text-3xl font-bold text-primary mb-2">SavingsVille Admin</h1>
-        <span className="text-secondary font-semibold mb-6">Sign in to your admin account</span>
+        <h1 className="font-baloo text-3xl font-bold text-secondary mb-2">SavingsVille Admin</h1>
+        <span className="text-gray-500 font-semibold mb-6">Sign in to your admin account</span>
         <form className="w-full space-y-5" onSubmit={handleLogin}>
           <Input
             placeholder="Email"

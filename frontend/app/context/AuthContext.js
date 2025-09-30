@@ -21,21 +21,30 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  // Login (store user + token)
-  const login = (user, token) => {
+   // Login (localStorage + call API to set cookie)
+  const login = async (user, token) => {
     setUser(user);
     setToken(token);
 
     localStorage.setItem("savingsville-user", JSON.stringify(user));
     localStorage.setItem("savingsville-token", token);
+
+    await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user, token }),
+    });
   };
 
-  // Logout (clear everything)
-  const logout = () => {
+  // Logout (clear localStorage + clear server cookie)
+  const logout = async () => {
     setUser(null);
     setToken(null);
+
+    localStorage.removeItem("savingsville-user");
     localStorage.removeItem("savingsville-token");
-    localStorage.removeItem("savingsville-token");
+
+    await fetch("/api/auth/logout", { method: "POST" });
   };
 
   return (
