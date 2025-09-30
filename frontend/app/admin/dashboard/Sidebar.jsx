@@ -13,8 +13,8 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
   ];
 
   const handleLogout = () => {
-    // Remove token if stored (uncomment if you store it)
-    // localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminToken');
+    onLogout();
     router.push("/admin/login");
   };
 
