@@ -43,7 +43,9 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // ============ Routes ============
+import adminRoutes from "./routes/adminRoutes.js";
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/topics", topicRoutes);
 app.use("/api/lessons", lessonRoutes);

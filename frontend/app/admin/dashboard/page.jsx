@@ -147,14 +147,15 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6F4FF] flex font-baloo">
-      <div className="sticky top-0 h-screen">
+    <div className="min-h-screen bg-[#F6F4FF] flex flex-col md:flex-row font-baloo">
+      {/* Sidebar: hidden on mobile, visible on md+ */}
+      <div className="hidden md:block md:w-[260px] sticky top-0 h-auto md:h-screen z-20">
         <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
-      <main className="flex-1 px-6 py-10 md:px-12 md:py-14">
+      <main className="flex-1 px-2 py-4 sm:px-4 sm:py-6 md:px-12 md:py-14 overflow-x-auto">
         {activeTab === "overview" && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 w-full">
               <div className="bg-[#34A853] rounded-lg px-8 py-6 flex flex-col items-start min-w-[170px]">
                 <span className="text-white text-sm font-semibold mb-2">Total Courses</span>
                 <span className="text-white text-3xl font-extrabold">{totalCourses}</span>
@@ -198,7 +199,7 @@ export default function AdminDashboard() {
         )}
         {activeTab === "courses" && (
           <>
-            <div className="flex justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <h3 className="font-baloo text-xl font-bold">Courses</h3>
               <AccentButton label="Add Course" onClick={handleAdd} />
             </div>
@@ -259,7 +260,7 @@ export default function AdminDashboard() {
         {activeTab === "students" && (
           <div className="p-8">
             <h2 className="font-baloo text-xl font-bold mb-4">Students</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="bg-white rounded-xl shadow p-6">
                 <h3 className="font-semibold text-lg mb-2">Student Stats</h3>
                 <div className="mb-4">
@@ -267,7 +268,7 @@ export default function AdminDashboard() {
                   <span className="block text-gray-700 mb-2">Active Students: 120</span>
                   <span className="block text-gray-700 mb-2">Average Course Completion: 75%</span>
                 </div>
-                {/* Example chart: Course Completion */}
+                {}
                 <div className="w-full h-32 bg-gradient-to-r from-blue-400 to-blue-200 rounded-lg flex items-center justify-center text-white font-bold text-xl">
                   Chart: Completion Rate
                 </div>
@@ -287,7 +288,7 @@ export default function AdminDashboard() {
         {activeTab === "settings" && (
           <div className="p-8">
             <h2 className="font-baloo text-xl font-bold mb-4">Admin Settings</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="bg-white rounded-xl shadow p-6 mb-4">
                 <h3 className="font-semibold text-lg mb-2">Change Email</h3>
                 <input type="email" className="w-full mb-2 px-3 py-2 rounded border bg-white text-black" placeholder="New email address" />
@@ -314,6 +315,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         )}
-              </main>
-            </div>
-  )};
+      </main>
+    </div>
+  );
+}

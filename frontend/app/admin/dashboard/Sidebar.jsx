@@ -1,16 +1,27 @@
+
 import React from "react";
+import { useRouter } from "next/navigation";
+
 
 export default function AdminSidebar({ activeTab, setActiveTab }) {
+  const router = useRouter();
   const tabs = [
     { key: "overview", label: "Dashboard", icon: "/dashboard.svg" },
     { key: "courses", label: "Courses", icon: "/courses.svg" },
     { key: "students", label: "Students", icon: "/students.svg" },
     { key: "settings", label: "Settings", icon: "/settings.svg" },
   ];
+
+  const handleLogout = () => {
+    // Remove token if stored (uncomment if you store it)
+    // localStorage.removeItem('adminToken');
+    router.push("/admin/login");
+  };
+
   return (
-  <aside className="bg-white shadow-lg h-full w-full max-w-[220px] flex flex-col py-8 px-4 md:w-[220px]">
+    <aside className="bg-white shadow-lg h-full w-full max-w-[220px] flex flex-col py-8 px-4 md:w-[220px]">
       <h2 className="font-baloo text-xl font-bold text-primary mb-8 text-center">SavingsVille</h2>
-  <nav className="flex flex-col gap-2 w-full">
+      <nav className="flex flex-col gap-2 w-full flex-1">
         {tabs.map((tab) => (
           <button
             key={tab.key}
@@ -26,6 +37,12 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
           </button>
         ))}
       </nav>
+      <button
+        onClick={handleLogout}
+        className="mt-8 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors w-full"
+      >
+        Logout
+      </button>
     </aside>
   );
 }
