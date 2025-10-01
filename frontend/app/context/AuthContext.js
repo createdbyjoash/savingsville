@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const AuthContext = createContext();
 
@@ -8,6 +9,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);       // user info
   const [token, setToken] = useState(null);     // JWT token
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   // Load auth data from localStorage when app starts
   useEffect(() => {
@@ -21,7 +23,7 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-   // Login (localStorage + call API to set cookie)
+  // Login (localStorage + call API + redirect)
   const login = async (user, token) => {
     setUser(user);
     setToken(token);
@@ -34,6 +36,8 @@ export function AuthProvider({ children }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user, token }),
     });
+    
+    router.push("/dashboard");
   };
 
   // Logout (clear localStorage + clear server cookie)

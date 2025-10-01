@@ -13,7 +13,7 @@ export function middleware(req) {
 
   if (!token) {
     const loginUrl = new URL("/", req.url);
-    loginUrl.searchParams.set("redirect", pathname);
+    //loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 

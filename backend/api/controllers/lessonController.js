@@ -1,6 +1,7 @@
 // controllers/lessonController.js
 import User from "../models/User.js";
 import { Lesson, Topic } from "../models/ContentModels.js";
+import { sendResponse } from "../utils/responseHandler.js";
 
 export const getLessonById = async (req, res) => {
   try {
@@ -102,5 +103,31 @@ export const completeLesson = async (req, res) => {
   } catch (err) {
     console.error("completeLesson error:", err);
     res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
+
+
+export const createLesson = async (req, res) => {
+  try {
+    const { topic_id, age_group, title, definition, story, order, thumbnail, video } = req.body;
+
+    const lesson = new Lesson({
+      topic_id,
+      age_group,
+      title,
+      definition,
+      story,
+      order,
+      thumbnail,
+      video,
+    });
+
+    await lesson.save();
+    sendResponse(res, 200, true, "Lesson created sucessfully", { data: lesson });
+  } catch (err) {
+    console.error("Create lesson error:", err);
+    res.status(500).json({ success: false, error: "Failed to create lesson" });
   }
 };

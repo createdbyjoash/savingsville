@@ -56,3 +56,24 @@ export const submitQuiz = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error", error: err.message });
   }
 };
+
+
+
+export const createQuiz = async (req, res) => {
+  try {
+    const { topic_id, age_group, quiz_type, questions } = req.body;
+
+    const quiz = new Quiz({
+      topic_id,
+      age_group,
+      quiz_type,
+      questions, // expects [{ question_text, options, correct_answer }]
+    });
+
+    await quiz.save();
+    sendResponse(res, 201, true, "Quiz created successfully", { data: quiz });
+  } catch (err) {
+    console.error("Create quiz error:", err);
+    res.status(500).json({ success: false, error: "Failed to create quiz" });
+  }
+};
