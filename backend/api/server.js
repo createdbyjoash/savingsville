@@ -18,7 +18,6 @@ import connectDB from "./utils/db.js";
 const app = express();
 
 
-console.log("ENV TEST:", process.env.CLOUDINARY_CLOUD_NAME);
 // ============ Middleware ============
 const allowedOrigins = [
   "http://localhost:3000",
