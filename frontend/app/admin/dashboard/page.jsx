@@ -88,15 +88,37 @@ export default function AdminDashboard() {
   };
 
   const handleDelete = async (course) => {
-        {activeTab === "courses" && (
-          <>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-              <h3 className="font-baloo text-xl font-bold">Courses</h3>
-              <AccentButton label="Add Course" onClick={handleAdd} />
-            </div>
+    if (!course?.slug) {
+      return alert("This topic has no slug; cannot delete.");
+    }
+    if (window.confirm(`Delete course "${course.title}"?`)) {
+      try {
+        const token =
+          localStorage.getItem("savingsville-token") ||
+          localStorage.getItem("token") ||
+          "";
 
-            {loading ? (
-              <div className="text-center py-12 text-gray-500">
+        const res = await fetch(
+          `http://localhost:5000/api/topics/${course.slug}`,
+          {
+            method: "DELETE",
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+          }
+        );
+        const data = await res.json();
+
+        // Be tolerant: success can be boolean or inferred by status code
+        if (res.ok && (data.success === undefined || data.success === true)) {
+          setCourses((prev) => prev.filter((c) => c.id !== course.id));
+        } else {
+          alert(data?.error || "Failed to delete topic.");
+        }
+      } catch (err) {
+        console.error("Error deleting:", err);
+        alert("Delete failed.");
+      }
+    }
+  };
                 Loading courses…
               </div>
             ) : courses.length === 0 ? (
