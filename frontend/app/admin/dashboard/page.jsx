@@ -216,26 +216,3 @@ export default function AdminDashboard() {
     </main>
   );
 }
-
-        {/* ----------------- Students ----------------- */}
-        {activeTab === "students" && (
-          <div className="p-8">
-            <h2 className="font-baloo text-xl font-bold mb-4">Students</h2>
-            <div className="bg-white rounded-xl shadow p-6">
-              <p className="text-gray-500">Coming soon…</p>
-            </div>
-          </div>
-        )}
-
-        {/* ----------------- Settings ----------------- */}
-        {activeTab === "settings" && (
-          <div className="p-8">
-            <h2 className="font-baloo text-xl font-bold mb-4">Admin Settings</h2>
-            <div className="bg-white rounded-xl shadow p-6">
-              <p className="text-gray-500">Coming soon…</p>
-            </div>
-          </div>
-        )}
-      </main>
-  );
-}
