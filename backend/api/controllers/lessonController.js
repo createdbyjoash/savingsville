@@ -2,18 +2,47 @@
 import User from "../models/User.js";
 import { Lesson, Topic } from "../models/ContentModels.js";
 import { sendResponse } from "../utils/responseHandler.js";
+import mongoose from "mongoose";
 
 export const getLessonById = async (req, res) => {
   try {
-    const lesson = await Lesson.findById(req.params.id);
-    if (!lesson) return res.status(404).json({ success: false, message: "Lesson not found" });
+    const { id } = req.params;
 
-    res.json({ success: true, data: lesson });
+    // must have an authenticated user (authMiddleware sets req.user)
+    const userAge = req.user?.age_group;
+    if (!userAge) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User age_group not set" });
+    }
+
+    // validate id
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid lesson id" });
+    }
+
+    // only return lesson for the user's age group
+    const lesson = await Lesson.findOne({ _id: id, age_group: userAge });
+    if (!lesson) {
+      // Optional: clarify if the id exists but for a different age group
+      const exists = await Lesson.exists({ _id: id });
+      const msg = exists
+        ? "Lesson not available for your age group"
+        : "Lesson not found";
+      return res.status(404).json({ success: false, message: msg });
+    }
+
+    // keep the original shape so your frontend continues to work
+    return res.json({ success: true, data: lesson });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Server error", error: err.message });
+    console.error("getLessonById error:", err);
+    return res
+      .status(500)
+      .json({ success: false, message: "Server error", error: err.message });
   }
 };
-
 
 
 
@@ -129,5 +158,144 @@ export const createLesson = async (req, res) => {
   } catch (err) {
     console.error("Create lesson error:", err);
     res.status(500).json({ success: false, error: "Failed to create lesson" });
+  }
+};
+
+
+
+
+
+export const getLessonsByTopicSlug = async (req, res) => {
+  // ---- simple debug gate ----
+  const DEBUG =
+    process.env.DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
+  const log = (...args) => DEBUG && console.log("[getLessonsByTopicSlug]", ...args);
+  const time = (label, end = false) =>
+    DEBUG && (end ? console.timeEnd(label) : console.time(label));
+
+  const REQ_LABEL = `slug:${req.params?.slug || "∅"} reqId:${req.id || "-"}`
+  time(REQ_LABEL);
+
+  try {
+    const rawSlug = req.params.slug;
+    if (!rawSlug) {
+      log("❌ Missing slug param");
+      return sendResponse(res, 400, false, "Missing slug");
+    }
+
+    const slug = decodeURIComponent(String(rawSlug)).toLowerCase();
+    const page = Math.max(parseInt(req.query.page || "1", 10), 1);
+    const rawLimit = Math.max(parseInt(req.query.limit || "50", 10), 1);
+    const limit = Math.min(rawLimit, 100);
+    const skip = (page - 1) * limit;
+
+    // auth/user context
+    const user = req.user || {};
+    const userId = user?._id || user?.id || null;
+    const userRole = user?.role || "unknown";
+    const userAge = user?.age_group || null;
+    const requestedAge = req.query.age_group;
+    const validAges = ["Kid", "Teen", "Adult"];
+    const isAdmin = ["admin", "superadmin"].includes(userRole);
+
+    log("▶️ Incoming", {
+      rawSlug,
+      slug,
+      query: req.query,
+      page,
+      limit,
+      skip,
+      user: { id: String(userId || ""), role: userRole, age_group: userAge },
+      requestedAge,
+      isAdmin,
+    });
+
+    // find topic
+    const topic = await Topic.findOne({ slug }).lean();
+    if (!topic) {
+      log("❌ Topic not found", { slug });
+      return sendResponse(res, 404, false, "Topic not found");
+    }
+    log("✅ Topic found", {
+      topic_id: String(topic._id),
+      title: topic.title,
+      chapter: topic.chapter,
+    });
+
+    // age-group enforcement
+    let effectiveAge = userAge;
+    if (isAdmin && requestedAge && validAges.includes(requestedAge)) {
+      effectiveAge = requestedAge;
+      log("👮 Admin override: using requested age_group", { effectiveAge });
+    }
+
+    if (!effectiveAge || !validAges.includes(effectiveAge)) {
+      log("❌ Invalid or missing effectiveAge", {
+        effectiveAge,
+        userAge,
+        requestedAge,
+        isAdmin,
+      });
+      return sendResponse(res, 400, false, "User age_group not set or invalid");
+    }
+
+    const filter = { topic_id: topic._id, age_group: effectiveAge };
+    log("🔎 Query filter", filter);
+
+    // query lessons + counts (parallel)
+    const parallelLabel = `${REQ_LABEL} DBParallel`;
+    time(parallelLabel);
+    const [items, total, totalAll, countsAgg, firstLesson] = await Promise.all([
+      Lesson.find(filter).sort({ order: 1, _id: 1 }).skip(skip).limit(limit).lean(),
+      Lesson.countDocuments(filter),
+      Lesson.countDocuments({ topic_id: topic._id }),
+      Lesson.aggregate([
+        { $match: { topic_id: topic._id } },
+        { $group: { _id: "$age_group", count: { $sum: 1 } } },
+      ]),
+      Lesson.findOne(filter).sort({ order: 1, _id: 1 }).select("_id").lean(),
+    ]);
+    time(parallelLabel, true);
+
+    const pages = Math.max(Math.ceil(total / limit), 1);
+    const countsByAgeGroup = countsAgg.reduce((acc, cur) => {
+      if (cur._id) acc[cur._id] = cur.count;
+      return acc;
+    }, {});
+
+    // summarize payload for logs (don’t spam console with huge arrays)
+    log("📦 Result summary", {
+      returnedLessons: items.length,
+      totalFiltered: total,
+      totalAll,
+      pages,
+      limit,
+      page,
+      countsByAgeGroup,
+      firstLessonId: firstLesson?._id || null,
+      sampleIds: items.slice(0, 3).map((x) => String(x._id)), // first 3 ids
+    });
+
+    const responsePayload = {
+      topic,
+      lessons: items,
+      meta: {
+        total,
+        totalAllLessons: totalAll,
+        countsByAgeGroup,
+        page,
+        pages,
+        limit,
+        filters: { age_group: effectiveAge, requestedAge: requestedAge || null },
+        firstLessonId: firstLesson?._id || null,
+      },
+    };
+
+    time(REQ_LABEL, true);
+    return sendResponse(res, 200, true, "Lessons fetched successfully", responsePayload);
+  } catch (err) {
+    console.error("[getLessonsByTopicSlug] ❌ error:", err);
+    time(REQ_LABEL, true);
+    return sendResponse(res, 500, false, "Server error", { error: err.message });
   }
 };

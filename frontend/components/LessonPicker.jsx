@@ -47,6 +47,7 @@ export default function LessonPicker({ lessons }) {
 
   const { token } = useAuth()
   const [topics, setTopics] = useState(null)
+  const [lessons2, setLessons] = useState(null)
   const [userData, setUserData] = useState(null);
 
   const { data: fetchedTopics, isLoading } = useQuery({
@@ -64,6 +65,7 @@ export default function LessonPicker({ lessons }) {
   useEffect(() => {
     if (fetchedTopics) {
       setTopics(fetchedTopics);
+      setLessons(fetchedTopics?.lessons)
       console.log("topics: ", fetchedTopics)
     }
   }, [fetchedTopics]);
@@ -87,7 +89,7 @@ export default function LessonPicker({ lessons }) {
                        return (<section key={index}>
                           <div
                             className={`${
-                              topic?._id === userData?.current_topic?._id ? "bg-secondary" : "bg-accent"
+                              topic?._id === userData?.current_topic?._id ? "bg-secondary" : "bg-secondary"
                             } w-full h-fit p-6 max-sm:py-4 rounded-2xl flex flex-wrap justify-between`}
                           >
                             <div className="md:space-y-2">
@@ -99,10 +101,10 @@ export default function LessonPicker({ lessons }) {
                               <p className="font-baloo max-sm:text-[0.9em] font-bold text-white">{truncateForMobile(topic.title ?? "", 18)}</p>
                             </div>
         
-                            <button className="hover:bg-[#16161618]  transition my-auto font-baloo font-bold text-white px-4 max-sm:px-2 py-3 max-sm:py-2 items-center h-fit shadow-xl border-2 border-[#ffffff6e] cursor-pointer bg-[#fff1] rounded-xl max-sm:text-sm flex gap-2">
-                              {currentTopic ? <PiNote size={24} />: <MdLockOutline size={20} />} 
-                              {currentTopic ? "Get Started" : "Unlock" }
-                            </button>
+                            <Link href={`/home/course/${topic.slug}`} className="hover:bg-[#16161618]  transition my-auto font-baloo font-bold text-white px-4 max-sm:px-2 py-3 max-sm:py-2 items-center h-fit shadow-xl border-2 border-[#ffffff6e] cursor-pointer bg-[#fff1] rounded-xl max-sm:text-sm flex gap-2">
+                              {currentTopic ? <PiNote size={24} />: <PiNote size={24} />} 
+                              {currentTopic ? "Get Started" : "Get Started" }
+                            </Link>
                           </div>
                           <div className="relative mt-6 grid grid-cols-3 gap-[7vw] max-sm:gap-[10vw]  h-fit place-items-center z-50">
                             {topic && topic?.lessons?.map((lesson, index) =>
@@ -114,7 +116,7 @@ export default function LessonPicker({ lessons }) {
                                   className="relative max-sm:mb-4 flex flex-col gap-2 items-center  z-50"
                                   key={index}
                                 >
-                                  <Link href="/home/course"
+                                  <Link href={`/home/lesson/${topic.slug}/${lesson._id}`}
                                     className="cursor-pointer icon z-50"
                                     key={index}
                                   >
@@ -127,7 +129,7 @@ export default function LessonPicker({ lessons }) {
                                       className="rounded-lg max-sm:max-w-[4em] max-sm:max-h-[4em]"
                                     />
                                   </Link>
-                                  <Link href="/home/course" className="hover:bg-[#ffffff5b] cursor-pointer text-sm max-sm:text-[0.71em] items-center font-baloo font-bold w-fit border border-[#49384b28] px-3 max-sm:px-2 py-1.5 rounded-md shadow-md">
+                                  <Link href={`/home/lesson/${topic.slug}/${lesson._id}`} className="hover:bg-[#ffffff5b] cursor-pointer text-sm max-sm:text-[0.71em] items-center font-baloo font-bold w-fit border border-[#49384b28] px-3 max-sm:px-2 py-1.5 rounded-md shadow-md">
                                     {`Lesson ${index + 1}`}
                                   </Link>
                                   {currentLesson && (
@@ -139,7 +141,7 @@ export default function LessonPicker({ lessons }) {
                                   className="flex flex-col gap-2 max-sm:mb-4  items-center  z-50"
                                   key={index}
                                 >
-                                  <Link href="/home/course" className="cursor-pointer icon" key={index}>
+                                  <Link href={`/home/lesson/${topic.slug}/${lesson._id}`} className="cursor-pointer icon" key={index}>
                                     <Image
                                       src={
                                         lesson.id === 6 ? "/treasure.png" : "/level.png"
@@ -151,7 +153,7 @@ export default function LessonPicker({ lessons }) {
                                       className="rounded-lg max-sm:max-w-[4em] max-sm:max-h-[4em]"
                                     />
                                   </Link>
-                                  <Link href="/home/course" className="hover:bg-[#ffffff5b] cursor-pointer text-sm max-sm:text-[0.71em] items-center font-baloo font-bold w-fit bg-primary border border-[#49384b28] px-3 max-sm:px-2 py-1.5 rounded-md shadow-md">
+                                  <Link href={`/home/lesson/${topic.slug}/${lesson._id}`} className="hover:bg-[#ffffff5b] cursor-pointer text-sm max-sm:text-[0.71em] items-center font-baloo font-bold w-fit bg-primary border border-[#49384b28] px-3 max-sm:px-2 py-1.5 rounded-md shadow-md">
                                     {`Lesson ${index + 1}`}
                                   </Link>
                                 </div>
