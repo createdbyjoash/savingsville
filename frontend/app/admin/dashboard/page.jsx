@@ -88,70 +88,70 @@ export default function AdminDashboard() {
   };
 
   const handleDelete = async (course) => {
-    if (!course?.slug) {
-      return alert("This topic has no slug; cannot delete.");
-    }
-    if (window.confirm(`Delete course "${course.title}"?`)) {
-      try {
-        const token =
-          localStorage.getItem("savingsville-token") ||
-          localStorage.getItem("token") ||
-          "";
-
-        const res = await fetch(
-          `http://localhost:5000/api/topics/${course.slug}`,
-          {
-            method: "DELETE",
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
-          }
-        );
-        const data = await res.json();
-
-        // Be tolerant: success can be boolean or inferred by status code
-        if (res.ok && (data.success === undefined || data.success === true)) {
-          setCourses((prev) => prev.filter((c) => c.id !== course.id));
-        } else {
-          alert(data?.error || "Failed to delete topic.");
-        }
-      } catch (err) {
-        console.error("Error deleting:", err);
-        alert("Delete failed.");
-      }
-    }
-  };
-
-  // After AddCourseModal finishes, we close AND refresh list
-  const handleModalClose = () => {
-    setShowForm(false);
-    fetchCourses(); // refresh with latest topics
-  };
-
-  // ----------------- UI -----------------
-  return (
-    <div className="min-h-screen bg-[#F6F4FF] flex flex-col md:flex-row font-baloo">
-      {/* Sidebar */}
-      <div className="hidden md:block md:w-[260px] sticky top-0 h-auto md:h-screen z-20">
-        <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      </div>
-
-      <main className="flex-1 px-2 py-4 sm:px-4 sm:py-6 md:px-12 md:py-14 overflow-x-auto">
-        {/* ----------------- Overview ----------------- */}
-        {activeTab === "overview" && (
+        {activeTab === "courses" && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 w-full">
-              <div className="bg-[#34A853] rounded-lg px-8 py-6 flex flex-col items-start">
-                <span className="text-white text-sm font-semibold mb-2">
-                  Total Courses
-                </span>
-                <span className="text-white text-3xl font-extrabold">
-                  {totalCourses}
-                </span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <h3 className="font-baloo text-xl font-bold">Courses</h3>
+              <AccentButton label="Add Course" onClick={handleAdd} />
+            </div>
+
+            {loading ? (
+              <div className="text-center py-12 text-gray-500">
+                Loading courses…
               </div>
-              <div className="bg-[#4285F4] rounded-lg px-8 py-6 flex flex-col items-start">
-                <span className="text-white text-sm font-semibold mb-2">
-                  Total Lessons
-                </span>
-                <span className="text-white text-3xl font-extrabold">
+            ) : courses.length === 0 ? (
+              <div className="text-center py-12 text-gray-500">
+                No courses yet. Add one!
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white rounded-xl shadow text-left">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="p-3 font-semibold">Title</th>
+                      <th className="p-3 font-semibold"># Lessons</th>
+                      <th className="p-3 font-semibold">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {courses.map((course) => (
+                      <tr
+                        key={course.id}
+                        className="border-b hover:bg-blue-50 transition"
+                      >
+                        <td className="p-3 font-bold">{course.title}</td>
+                        <td className="p-3 text-center">{course.lessonsCount}</td>
+                        <td className="p-3 flex gap-2">
+                          <button
+                            title="Edit"
+                            onClick={() => handleEdit(course)}
+                            className="text-blue-500 text-xl"
+                          >
+                            ✎
+                          </button>
+                          <button
+                            title="Delete"
+                            onClick={() => handleDelete(course)}
+                            className="text-red-500 text-xl"
+                          >
+                            🗑️
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {showForm && (
+              <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                {/* Pass editCourse for editing */}
+                <AddCourseModal onClose={handleModalClose} editCourse={editCourse} />
+              </div>
+            )}
+          </>
+        )}
                   {totalLessons}
                 </span>
               </div>
@@ -270,8 +270,8 @@ export default function AdminDashboard() {
 
             {showForm && (
               <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-                {/* Close modal will also refresh topics */}
-                <AddCourseModal onClose={handleModalClose} />
+                {/* Pass editCourse for editing */}
+                <AddCourseModal onClose={handleModalClose} editCourse={editCourse} />
               </div>
             )}
           </>
