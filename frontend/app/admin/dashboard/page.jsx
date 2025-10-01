@@ -6,7 +6,7 @@ import AddCourseModal from "./AddCourseModal";
 
 
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // ----------------- Admin Dashboard -----------------
 export default function AdminDashboard() {

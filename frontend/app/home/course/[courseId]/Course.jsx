@@ -13,7 +13,7 @@ const FILTERS = [
   { id: 3, label: "PENDING" },
 ];
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL; // if you’re not using rewrites, change to `${process.env.NEXT_PUBLIC_API_URL}`
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL; // if you’re not using rewrites, change to `${process.env.NEXT_PUBLIC_API_URL}`
 
 export default function Course() {
   const router = useRouter();

@@ -23,7 +23,7 @@ import FallbackHero from "./FallbackComponent";
 
 
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL; // if you aren't using rewrites, swap to process.env.NEXT_PUBLIC_API_URL
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL; // if you aren't using rewrites, swap to process.env.NEXT_PUBLIC_API_URL
 
 export default function Lesson() {
   const router = useRouter();
