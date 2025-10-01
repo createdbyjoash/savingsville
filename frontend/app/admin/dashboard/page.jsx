@@ -191,9 +191,7 @@ export default function AdminDashboard() {
                   <thead>
                     <tr className="bg-gray-100">
                       <th className="p-3 font-semibold">Title</th>
-                      <th className="p-3 font-semibold">Age Group</th>
                       <th className="p-3 font-semibold"># Lessons</th>
-                      <th className="p-3 font-semibold">Created Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -203,11 +201,7 @@ export default function AdminDashboard() {
                         className="border-b hover:bg-blue-50 cursor-pointer transition"
                       >
                         <td className="p-3 font-bold">{course.title}</td>
-                        <td className="p-3">{course.age_group}</td>
-                        <td className="p-3 text-center">
-                          {course.lessonsCount}
-                        </td>
-                        <td className="p-3">{course.created_at}</td>
+                        <td className="p-3 text-center">{course.lessonsCount}</td>
                       </tr>
                     ))}
                   </tbody>
