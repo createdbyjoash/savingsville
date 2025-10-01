@@ -6,6 +6,27 @@ import Sidebar from "../../../components/Sidebar";
 
 function ProfilePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profile, setProfile] = useState({ name: '', nickname: '' });
+  React.useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const token = localStorage.getItem('savingsville-token') || localStorage.getItem('token') || '';
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        const data = await res.json();
+        if (res.ok && data.success && data.data) {
+          setProfile({
+            name: data.data.name || '',
+            nickname: data.data.nickname || '',
+          });
+        }
+      } catch (err) {
+        console.error('Failed to fetch profile:', err);
+      }
+    }
+    fetchProfile();
+  }, []);
   return (
     <div className="flex min-h-screen bg-[#E2C6FF]">
       {/* Hamburger for mobile */}
@@ -61,8 +82,8 @@ function ProfilePage() {
           </div>
           {/* User info */}
           <div className="mt-12 md:mt-16 w-full flex flex-col items-center pb-1">
-            <h2 className="font-heading text-xl md:text-2xl font-bold mb-0.5 text-center">Khadijah Muthmainah</h2>
-            <div className="text-[#9B5398] font-inter text-sm md:text-base mb-0.5 text-center">@Khadee_123</div>
+            <h2 className="font-heading text-xl md:text-2xl font-bold mb-0.5 text-center">{profile.name || "—"}</h2>
+            <div className="text-[#9B5398] font-inter text-sm md:text-base mb-0.5 text-center">{profile.nickname ? `@${profile.nickname}` : "—"}</div>
             <div className="text-[#3d203c] font-inter mb-1 text-center text-xs md:text-sm">Joined May 2025</div>
           </div>
           {/* Stats */}
