@@ -7,22 +7,6 @@ import { TiArrowForward } from "react-icons/ti";
 
 const options = [
   {id: 1,
-    title: "Live Sessions",
-    caption: "Jump in and keep your skills sharp!",
-    background: "grid bg-[linear-gradient(45deg,_#9B5398,_#E4B2E2)]",
-    imageUrl: "/live.svg",
-    link: "#"
-  },
-
-  {id: 2,
-    title: "Instructors",
-    caption: "Refresh what you’ve learned anytime",
-    background: "grid bg-[linear-gradient(45deg,_#00C7A8,_#B1FEF2)]",
-    imageUrl: "/instructor.svg",
-    link: "extra/instructors"
-  },
-
-  {id: 3,
     title: "Parental Systems",
     caption: "Boost your knowledge with quick drills.",
     background: "grid bg-[linear-gradient(45deg,_#FFC526,_#FFE6A0)]",
@@ -30,7 +14,7 @@ const options = [
     link: "extra/parental"
   },
 
-  {id: 4,
+  {id: 2,
     title: "Budget Tracking",
     caption: "Explore handy guides and tips.",
     background: "grid bg-[linear-gradient(45deg,_#FFC526,_#FFE6A0)]",
@@ -38,7 +22,7 @@ const options = [
     link: "#"
   },
 
-  {id: 5,
+  {id: 3,
     title: "Settings",
     caption: "Jump in and keep your skills sharp!",
     background: "grid bg-[linear-gradient(45deg,_#EA2989,_#FFB1BD)]",
@@ -46,7 +30,7 @@ const options = [
     link: "extra/settings"
   },
 
-  {id: 6,
+  {id: 4,
     title: "Profile",
     caption: "Test yourself and track your progress!",
     background: "grid bg-[linear-gradient(45deg,_#9B5398,_#E4B2E2)]",

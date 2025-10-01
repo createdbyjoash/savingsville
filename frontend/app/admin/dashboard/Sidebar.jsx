@@ -12,10 +12,12 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
     { key: "settings", label: "Settings", icon: "/settings.svg" },
   ];
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    onLogout();
-    router.push("/admin/login");
+    const handleLogout = () => {
+      // Remove all possible admin tokens
+      localStorage.removeItem('adminToken');
+      localStorage.removeItem('savingsville-token');
+      localStorage.removeItem('token');
+      router.push("/admin/login");
   };
 
   return (
