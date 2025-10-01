@@ -49,7 +49,7 @@ export default function AddCourseModal({ onClose }) {
     fd.append("file", file);
     fd.append("type", type);
 
-    const res = await fetch("http://localhost:5000/api/upload", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload`, {
       method: "POST",
       body: fd,
     });
@@ -190,7 +190,7 @@ export default function AddCourseModal({ onClose }) {
     setLoading(true);
     try {
       // 1) Create Topic (server will auto-assign chapter)
-      const topicRes = await fetch("http://localhost:5000/api/topics", {
+  const topicRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/topics`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, description }),
@@ -216,7 +216,7 @@ export default function AddCourseModal({ onClose }) {
           videoUrl = await uploadToServer(L.videoFile, "video");
         }
 
-        const lessonRes = await fetch("http://localhost:5000/api/lessons", {
+  const lessonRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lessons`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -260,7 +260,7 @@ export default function AddCourseModal({ onClose }) {
         .filter(Boolean);
 
       if (cleanedQuestions.length) {
-        const quizRes = await fetch("http://localhost:5000/api/quizzes", {
+  const quizRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/quizzes`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
