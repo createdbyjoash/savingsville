@@ -1,21 +1,20 @@
 "use client";
 import React, { useState } from "react";
 
-
-export default function AddCourseModal({ onClose, editCourse }) {
+export default function AddCourseModal({ onClose }) {
   const [step, setStep] = useState(0);
 
   // Topic fields
-  const [title, setTitle] = useState(editCourse?.title || "");
-  const [description, setDescription] = useState(editCourse?.description || "");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   // One ageGroup for all lessons, per your note
-  const [ageGroup, setAgeGroup] = useState(editCourse?.age_group || ""); // "Kid" | "Teen" | "Adult"
+  const [ageGroup, setAgeGroup] = useState(""); // "Kid" | "Teen" | "Adult"
 
   // Optional course thumbnail (UI only for now)
   const [thumbnail, setThumbnail] = useState(null);
 
   // Lessons
-  const [lessons, setLessons] = useState(editCourse?.lessons || [
+  const [lessons, setLessons] = useState([
     {
       title: "",
       definition: "",
@@ -50,7 +49,7 @@ export default function AddCourseModal({ onClose, editCourse }) {
     fd.append("file", file);
     fd.append("type", type);
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/upload`, {
+    const res = await fetch("http://localhost:5000/api/upload", {
       method: "POST",
       body: fd,
     });
@@ -190,37 +189,24 @@ export default function AddCourseModal({ onClose, editCourse }) {
 
     setLoading(true);
     try {
-      let topicId;
-      if (editCourse && editCourse.id) {
-        // Edit mode: update topic
-        const topicRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/topics/${editCourse.id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title, description }),
-        });
-        const topicData = await topicRes.json();
-        if (!topicRes.ok || !topicData.success) {
-          throw new Error(topicData?.error || "Failed to update topic");
-        }
-        topicId = editCourse.id;
-      } else {
-        // Add mode: create topic
-        const topicRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/topics`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title, description }),
-        });
-        const topicData = await topicRes.json();
-        if (!topicRes.ok || !topicData.success) {
-          throw new Error(topicData?.error || "Failed to create topic");
-        }
-        topicId = topicData.data?.data?._id;
+      // 1) Create Topic (server will auto-assign chapter)
+      const topicRes = await fetch("http://localhost:5000/api/topics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description }),
+      });
+      const topicData = await topicRes.json();
+      if (!topicRes.ok || !topicData.success) {
+        throw new Error(topicData?.error || "Failed to create topic");
       }
+      const topicId = topicData.data?.data?._id;
 
-      // Lessons and quiz logic can be similarly updated for edit mode if needed
-      // For now, just add new lessons/quizzes as before
+      console.log(topicData)
+
+      // 2) Create Lessons (ensure media is uploaded)
       for (let i = 0; i < lessons.length; i++) {
         const L = lessons[i];
+
         let thumbnailUrl = L.thumbnailUrl;
         if (L.thumbnailFile && !thumbnailUrl) {
           thumbnailUrl = await uploadToServer(L.thumbnailFile, "image");
@@ -229,12 +215,13 @@ export default function AddCourseModal({ onClose, editCourse }) {
         if (L.videoFile && !videoUrl) {
           videoUrl = await uploadToServer(L.videoFile, "video");
         }
-        await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lessons`, {
+
+        const lessonRes = await fetch("http://localhost:5000/api/lessons", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             topic_id: topicId,
-            age_group: ageGroup,
+            age_group: ageGroup, // required: "Kid" | "Teen" | "Adult"
             title: L.title,
             definition: L.definition || "",
             story: L.story || "",
@@ -243,9 +230,16 @@ export default function AddCourseModal({ onClose, editCourse }) {
             video: videoUrl || "",
           }),
         });
+
+        const lessonData = await lessonRes.json();
+        if (!lessonRes.ok || !lessonData.success) {
+          throw new Error(
+            lessonData?.error || `Failed to create lesson #${i + 1}`
+          );
+        }
       }
 
-      // Quiz logic unchanged
+      // 3) Create Quiz if valid questions exist
       const cleanedQuestions = questions
         .map((q) => {
           const opts = q.options.map((o) => o.trim()).filter(Boolean);
@@ -266,7 +260,7 @@ export default function AddCourseModal({ onClose, editCourse }) {
         .filter(Boolean);
 
       if (cleanedQuestions.length) {
-        await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/quizzes`, {
+        const quizRes = await fetch("http://localhost:5000/api/quizzes", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -276,9 +270,15 @@ export default function AddCourseModal({ onClose, editCourse }) {
             questions: cleanedQuestions,
           }),
         });
+        const quizData = await quizRes.json();
+        if (!quizRes.ok || !quizData.success) {
+          throw new Error(quizData?.error || "Failed to create quiz");
+        }
       }
 
-      alert(editCourse ? "✅ Course updated successfully!" : "✅ Course published successfully!");
+      // (Optional) publishNow & publishDate could be persisted here if you add support server-side
+
+      alert("✅ Course published successfully!");
       onClose();
     } catch (err) {
       console.error(err);
