@@ -87,7 +87,7 @@ const router = useRouter();
             <WhiteButton type="link" href="/" label="Back"  />
             <AccentButton label="Continue" onClick={() => {
               if (activeIndex === null) {
-                setError("Please select your experience level before continuing.");
+                alert("Please select your experience level before continuing.");
                 return;
               }
               setError("");

@@ -62,17 +62,10 @@ function Home() {
   goToStep(step);
 };
 
- useEffect(() => {
+ /*useEffect(() => {
     const step = searchParams.get("signup");
     if (step === "step1") setSignupStep(step);
-  }, [searchParams]);
-
-  useEffect(() => {
-    const step = searchParams.get("signup");
-    if (step === "step4") {
-      router.push("/onboarding");
-    }
-  }, [searchParams, router]);
+  }, [searchParams]);*/
 
 
 

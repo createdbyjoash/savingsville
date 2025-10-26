@@ -139,7 +139,7 @@ export default function Step2() {
               label="Continue"
               onClick={() => {
                 if (activeIndex === null) {
-                  setError("Please select a topic before continuing.");
+                  alert("Please select a topic before continuing.");
                   return;
                 }
                 setError("");

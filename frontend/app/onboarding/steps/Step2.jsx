@@ -92,7 +92,7 @@ const router = useRouter();
             <WhiteButton label="Back" onClick={() => router.push(`?tab=1`)} />
             <AccentButton label="Continue" onClick={() => {
               if (activeIndex === null) {
-                setError("Please select a reason before continuing.");
+                alert("Please select a reason before continuing.");
                 return;
               }
               setError("");

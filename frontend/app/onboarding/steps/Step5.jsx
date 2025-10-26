@@ -139,7 +139,7 @@ export default function Step5() {
               label="Continue"
               onClick={() => {
                 if (activeIndex === null) {
-                  setError("Please select a language before continuing.");
+                  alert("Please select a language before continuing.");
                   return;
                 }
                 setError("");

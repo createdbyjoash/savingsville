@@ -54,9 +54,12 @@ export default function Step4() {
     },
     onError: (error) => {
       console.error("❌ Mutation failed:", error.message);
+      alert("Operation failed try again")
       if (error.response) {
         console.error("Error response data:", error.response.data);
       }
+      return
+      
     },
   });
 
@@ -123,7 +126,8 @@ export default function Step4() {
               disabled={agegroupMutation.isPending}
               onClick={() => {
                 if (activeIndex === null) {
-                  setError("Please select your age group before continuing.");
+                  //setError("Please select your age group before continuing.");
+                  alert("Please select your age group before continuing.")
                   return;
                 }
                 setError("");
