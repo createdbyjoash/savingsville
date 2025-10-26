@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
       body: JSON.stringify({ user, token }),
     });
     
-    router.push("/dashboard");
+    //router.push("/dashboard");
   };
 
   // Logout (clear localStorage + clear server cookie)
