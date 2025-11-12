@@ -1,11 +1,11 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import Input from "@/components/Input";
 import AccentButton from "@/components/AccentButton";
 import Image from "next/image";
 import { IoMdArrowBack } from "react-icons/io";
 
-export default function UpdateUsernamePopup({handleFormStep, usernameMutation, username, setUsername}) {
+export default function UpdateUsernamePopup({handleFormStep, usernameMutation, username, setUsername, error}) {
 
     const handleNext = (e) => {
       e.preventDefault();
@@ -48,10 +48,12 @@ const handlePrev = () => {
           e.preventDefault();
           usernameMutation.mutate();
         }}>
+          
               <Input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required />
+
               <small className="text-gray-600 text-center mx-auto">
                 Build trust by using your full name or business name
-              </small>
+              </small>{error && <p className="text-[0.9em] font-medium text-red-400">{error}</p>}
               <AccentButton
               disabled={usernameMutation.isPending}
               loading={usernameMutation.isPending}

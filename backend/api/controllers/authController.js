@@ -35,7 +35,7 @@ export const registerUser = async (req, res) => {
 
     if (existingUser && existingUser.isVerified) {
       console.log("❌ User already registered and verified.");
-      return sendResponse(res, 400, false, "Login. Email already registered");
+      return sendResponse(res, 400, false, "Email already registered. Please login.");
     }
 
     if (existingUser && !existingUser.isVerified) {

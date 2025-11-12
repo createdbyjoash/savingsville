@@ -56,6 +56,7 @@ function Home() {
   const [username, setUsername] = useState("");
   const [otp, setOtp] = useState("")
   const [isNewUser, setIsNewUser] = useState(true)
+  const [error, setError] = useState("")
 
 
   const handleFormStep = (step) => {
@@ -107,6 +108,12 @@ function Home() {
     if (error.response) {
       console.log("Error response data:", error.response.data);
     }
+
+    const message = error?.response?.data?.message;
+  if (message) {
+    setError(message);
+    setTimeout(() => setError(""), 5000);
+  }
   },
 });
 
@@ -142,6 +149,12 @@ const usernameMutation = useMutation({
     if (error.response) {
       console.log("Error response data:", error.response.data);
     }
+
+    const message = error?.response?.data?.message;
+  if (message) {
+    setError(message);
+    setTimeout(() => setError(""), 5000);
+  }
   },
 });
 
@@ -408,6 +421,7 @@ const goToStep = (step) => {
 
       {signupStep === "step3" && <UpdateUsernamePopup 
         username={username}
+        error={error}
         setUsername={setUsername}
         usernameMutation={usernameMutation}
         handleFormStep={handleFormStep} />}

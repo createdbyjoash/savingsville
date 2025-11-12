@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import Input from "@/components/Input";
 import Image from "next/image";
 import AccentButton from "@/components/AccentButton";
@@ -26,6 +27,8 @@ export default function CreateAccountPage({
 }) {
   const { login } = useAuth();
   const router = useRouter();
+  const [error, setError] = useState("")
+  
 
   const signupMutation = useMutation({
     mutationFn: () => {
@@ -69,6 +72,12 @@ export default function CreateAccountPage({
       if (error.response) {
         console.log("Error response data:", error.response.data);
       }
+
+      const message = error?.response?.data?.message;
+  if (message) {
+    setError(message);
+    setTimeout(() => setError(""), 5000);
+  }
     },
   });
 
@@ -109,6 +118,12 @@ export default function CreateAccountPage({
       if (error.response) {
         console.log("Error response data:", error.response.data);
       }
+    // Safely check if the error has a message inside response.data
+  const message = error?.response?.data?.message;
+  if (message) {
+    setError(message);
+    setTimeout(() => setError(""), 5000);
+  }
     },
   });
 
@@ -166,6 +181,7 @@ export default function CreateAccountPage({
                 required
                 type="password"
               />
+              {error && <p className="text-[0.9em] font-medium text-red-400">{error}</p>}
               <AccentButton
                 disabled={signupMutation.isPending || loginMutation.isPending}
                 loading={signupMutation.isPending || loginMutation.isPending}

@@ -43,10 +43,24 @@ export const updateMe = async (req, res) => {
 
     console.log("[updateMe] Found user:", user._id);
 
-    if (username !== undefined) {
-      console.log(`[updateMe] Updating username to: ${username}`);
+    // 🧩 Check for duplicate username
+    if (username !== undefined && username !== user.username) {
+      console.log(`[updateMe] Attempting to change username to: ${username}`);
+
+      const existingUser = await User.findOne({ username });
+      if (existingUser && existingUser._id.toString() !== userId) {
+        console.warn("[updateMe] Username already taken:", username);
+        return sendResponse(
+          res,
+          400,
+          false,
+          "Username is already taken. Please try another one."
+        );
+      }
+
       user.username = username;
     }
+
     if (preferred_language !== undefined) {
       console.log(`[updateMe] Updating preferred_language to: ${preferred_language}`);
       user.preferred_language = preferred_language;
@@ -95,4 +109,5 @@ export const updateMe = async (req, res) => {
     return sendResponse(res, 500, false, "Server error", null, err.message);
   }
 };
+
 
